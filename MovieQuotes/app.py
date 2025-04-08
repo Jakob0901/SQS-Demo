@@ -3,10 +3,14 @@ from flask import Flask, request, jsonify, render_template
 from functools import wraps
 from flask_wtf.csrf import CSRFProtect
 
+from wrapper.QuotesApi import QuotesApi
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'default_secret_key')
 app.config['WTF_CSRF_ENABLED'] = True
 csrf = CSRFProtect(app)
+
+quotes_api_wrapper = QuotesApi()
 
 API_KEY = os.environ.get('API_KEY')
 
@@ -26,7 +30,7 @@ def hello_world():
 
 @app.route('/quote')
 def get_quote():
-    return "You are a wizard, Harry!"
+    return quotes_api_wrapper.get_random_quote()
 
 @app.route('/stored_quotes')
 @require_api_key

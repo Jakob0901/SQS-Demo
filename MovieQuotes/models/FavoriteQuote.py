@@ -10,5 +10,5 @@ class FavoriteQuote(Base):
 
     id = Column(String, primary_key=True)
     quote = Column(Text, nullable=False)
-    movie = Column(String(255), nullable=True)
+    source = Column(String(255), nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)

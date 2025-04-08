@@ -10,9 +10,9 @@ class DatabaseWrapper:
         Base.metadata.create_all(self.engine)
         self.Session = sessionmaker(bind=self.engine)
 
-    def store_quote(self, quote, movie=None):
+    def store_quote(self, quote, source=None):
         session = self.Session()
-        new_quote = FavoriteQuote(id=str(uuid.uuid4()), quote=quote, movie=movie)
+        new_quote = FavoriteQuote(id=str(uuid.uuid4()), quote=quote, source=source)
         session.add(new_quote)
         session.commit()
         session.close()
