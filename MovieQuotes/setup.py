@@ -10,7 +10,8 @@ setup(
         'Flask-WTF',
         'SQLAlchemy',
         'psycopg2',
-        'requests'
+        'requests',
+        'tenacity',
     ],
     entry_points={
         'console_scripts': [
