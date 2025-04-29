@@ -62,4 +62,4 @@ if __name__ == '__main__':
     if not API_KEY:
         raise ValueError("No API_KEY environment variable set")
 
-    app.run(ssl_context='adhoc')
+    app.run()
