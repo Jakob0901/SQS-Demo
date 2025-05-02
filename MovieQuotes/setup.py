@@ -12,6 +12,7 @@ setup(
         'psycopg2',
         'requests',
         'tenacity',
+        'coverage',
     ],
     entry_points={
         'console_scripts': [

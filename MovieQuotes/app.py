@@ -7,12 +7,6 @@ from flask_wtf.csrf import CSRFProtect
 from wrapper.QuotesApi import QuotesApi
 from database.Storage import DatabaseWrapper
 
-# Setup database connection
-database_url = os.environ.get('DATABASE_URL', 'localhost:5432')
-username = os.environ.get('DB_USERNAME', 'username')
-password = os.environ.get('DB_PASSWORD', 'password')
-db = DatabaseWrapper(database_url, username, password)
-
 # Setup Flask app
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'default_secret_key')
@@ -23,9 +17,23 @@ quotes_api_wrapper = QuotesApi()
 
 API_KEY = os.environ.get('API_KEY')
 
+db = None  # Platzhalter für Unitests; regulär wird er in der Funktion initialize_database() initialisiert
+
+def initialize_database():
+    global db
+    database_url = os.environ.get('DATABASE_URL', 'localhost:5432')
+    username = os.environ.get('DB_USERNAME', 'username')
+    password = os.environ.get('DB_PASSWORD', 'password')
+    db = DatabaseWrapper(database_url, username, password)
+
+if os.environ.get('FLASK_ENV') != 'testing':
+    initialize_database()
+
 def require_api_key(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
+        print(request.headers.get('x-api-key'))
+        print(API_KEY)
         if request.headers.get('x-api-key') == API_KEY:
             return f(*args, **kwargs)
         else:
@@ -44,7 +52,7 @@ def get_quote():
 @app.route('/stored_quotes')
 @require_api_key
 def get_stored_quotes():
-    return db.get_all_quotes()
+    return db.get_all_quotes() if db else jsonify([])
 
 @app.route('/save', methods=['POST'])
 @require_api_key
@@ -54,8 +62,9 @@ def save_quote():
     if not data:
         return jsonify({"message": "No quote provided"}), 400
     else:
-        db.store_quote(data)
-        logging.info("Quote saved to database")
+        if db:
+            db.store_quote(data)
+            logging.info("Quote saved to database")
         return jsonify({"message": "Quote saved!"}), 200
 
 if __name__ == '__main__':
