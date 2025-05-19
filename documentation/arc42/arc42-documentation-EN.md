@@ -10,33 +10,62 @@ Template Version 8.2 EN. (based upon AsciiDoc version), January 2023
 Created, maintained and © by Dr. Peter Hruschka, Dr. Gernot Starke and
 contributors. See <https://arc42.org>.
 
-# Introduction and Goals {#section-introduction-and-goals}
+# 1 Introduction and Goals 
 
-## Requirements Overview {#_requirements_overview}
+The primary goal of the MovieQuotes API is to provide a simple and user-friendly interface for fetching and saving movie quotes. 
+The API is designed to be intuitive and easy to use and includes a Web application for easy access.
 
-## Quality Goals {#_quality_goals}
+## Requirements Overview
 
-## Stakeholders {#_stakeholders}
+This section describes the relevant requirements and the driving forces that software architects and development team must consider. 
+These include:
 
-+-------------+---------------------------+---------------------------+
-| Role/Name   | Contact                   | Expectations              |
-+=============+===========================+===========================+
-| *\<Role-1>* | *\<Contact-1>*            | *\<Expectation-1>*        |
-+-------------+---------------------------+---------------------------+
-| *\<Role-2>* | *\<Contact-2>*            | *\<Expectation-2>*        |
-+-------------+---------------------------+---------------------------+
+- Functional Requirements: The API must allow users to fetch random quotes, search for quotes by author or movie, and save new quotes.
+- Functional Requirements: The API must allow users to fetch random quotes, and save new quotes.
+- Functional Requirements: The API must allow users to access a Web application that provides a user-friendly interface for interacting with the API.
+- Functional Requirements: The Web application must allow users to view and save quotes.
+- Non-Functional Requirements: The API must be able to handle a growing number of users and quotes without significant performance degradation.
+- Non-Functional Requirements: The application must be reliable and robust, with minimal downtime and errors.
+- Non-Functional Requirements: The application must be secure, with appropriate measures to protect against unauthorized access and data breaches.
+- Non-Functional Requirements: The application must be intuitive and easy to use, with a clean and user-friendly interface.
+- Non-Functional Requirements: The API must be performant, scalable, and secure. It should also provide a user-friendly interface for the Web application.
 
-# Architecture Constraints {#section-architecture-constraints}
+## Quality Goals
 
-# Context and Scope {#section-context-and-scope}
+The architecture of the application must meet the following quality goals:
 
-## Business Context {#_business_context}
+- Performance: The application should respond quickly to user interactions, ensuring a smooth and responsive experience.
+- Reliability: The application should be robust and reliable, with minimal downtime and errors.
+- Security: User data and interactions should be secure, with appropriate measures to protect against unauthorized access and data breaches.
+- Usability: The application should be intuitive and easy to use, with a clean and user-friendly interface.
+- Maintainability: The codebase should be well-structured and easy to maintain, with clear documentation and a modular design.
+
+## Stakeholders
+
+| Role/Name | Contact                               | Expectations                                                                                                         |
+|-----------|---------------------------------------|----------------------------------------------------------------------------------------------------------------------|
+| Third-Party Service Providers | https://api.quotable.io/              | Clear integration guidelines, reliable performance, and timely support for API-related issues.                       |
+| Developer | https://github.com/Jakob0901          | Well-documented and modular architecture, easy development and maintenance, access to necessary tools and resources. |
+| End User | https://github.com/Jakob0901/SQS-Demo | Seamless and enjoyable user experience, intuitive interface, quick response times, and engaging features.            |
+| Administrator | https://github.com/Jakob0901/SQS-Demo | Robust administrative tools, comprehensive user management, system monitoring, and security measures.                |
+
+
+# 2 Architecture Constraints 
+
+- The application must be containerized using Docker to ensure consistency across different environments and facilitate easy deployment.
+- The application must be store data in a SQL database to ensure data integrity and reliability.
+- The application must be built with a programming language supporting various testing frameworks like Python, Java, or C#.
+- The application must be designed with restful APIs to ensure easy integration with other services and applications.
+
+# 3 Context and Scope
+
+## Business Context 
 
 **\<Diagram or Table>**
 
 **\<optionally: Explanation of external domain interfaces>**
 
-## Technical Context {#_technical_context}
+## Technical Context
 
 **\<Diagram or Table>**
 
@@ -44,11 +73,21 @@ contributors. See <https://arc42.org>.
 
 **\<Mapping Input/Output to Channels>**
 
-# Solution Strategy {#section-solution-strategy}
+# 4 Solution Strategy
 
-# Building Block View {#section-building-block-view}
+| Quality Goal | Scenario | Solution Approach                                                                | Link to Details |
+|--------------|-----|----------------------------------------------------------------------------------|-----------------|
+| Performance  | Users expect quick response times for interactions.  | Optimize database queries, use caching mechanisms, and implement load balancing. | Section 5.1     |
+| Scalability  | The application must handle an increasing number of users and quotes.  | Design for horizontal scaling, use container orchestration (e.g., Kubernetes).   | Section 5.2     |
+| Security     | Protect user data and ensure secure interactions.  | Implement encryption, secure authentication, and regular security audits.        | Section 5.3     |
+| Reliability     | Ensure minimal downtime and robust failover mechanisms.  | Use redundant systems, implement health checks, and monitor system performance.  | Section 5.4     |
+| Usability     | Provide an intuitive and engaging user experience.  | Conduct user testing, follow UX best practices, and gather user feedback.        | Section 5.5     |
+| Data Integrity     | Ensure data is stored reliably and accurately.  | Use a SQL database (PostgreSQL) to ensure data integrity and reliability.        | Section 5.6     |
+| Integration     | Ensure easy integration with other services and applications.  | Design with RESTful APIs to facilitate seamless integration.        | Section 5.7     |
 
-## Whitebox Overall System {#_whitebox_overall_system}
+# 5 Building Block View 
+
+## Whitebox Overall System 
 
 ***\<Overview Diagram>***
 
@@ -122,7 +161,7 @@ Important Interfaces
 
 *\<white box template>*
 
-# Runtime View {#section-runtime-view}
+# 6 Runtime View {#section-runtime-view}
 
 ## \<Runtime Scenario 1> {#__runtime_scenario_1}
 
@@ -137,7 +176,7 @@ Important Interfaces
 
 ## \<Runtime Scenario n> {#__runtime_scenario_n}
 
-# Deployment View {#section-deployment-view}
+# 7 Deployment View {#section-deployment-view}
 
 ## Infrastructure Level 1 {#_infrastructure_level_1}
 
@@ -171,7 +210,7 @@ Mapping of Building Blocks to Infrastructure
 
 *\<diagram + explanation>*
 
-# Cross-cutting Concepts {#section-concepts}
+# 8 Cross-cutting Concepts {#section-concepts}
 
 ## *\<Concept 1>* {#__emphasis_concept_1_emphasis}
 
@@ -187,17 +226,17 @@ Mapping of Building Blocks to Infrastructure
 
 *\<explanation>*
 
-# Architecture Decisions {#section-design-decisions}
+# 9 Architecture Decisions {#section-design-decisions}
 
-# Quality Requirements {#section-quality-scenarios}
+# 10 Quality Requirements {#section-quality-scenarios}
 
 ## Quality Tree {#_quality_tree}
 
 ## Quality Scenarios {#_quality_scenarios}
 
-# Risks and Technical Debts {#section-technical-risks}
+# 11 Risks and Technical Debts {#section-technical-risks}
 
-# Glossary {#section-glossary}
+# 12 Glossary {#section-glossary}
 
 +-----------------------+-----------------------------------------------+
 | Term                  | Definition                                    |
