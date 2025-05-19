@@ -228,6 +228,8 @@ Mapping of Building Blocks to Infrastructure
 
 # 9 Architecture Decisions {#section-design-decisions}
 
+Architecture decisions are recorded in the adr folder located at documentation/adr.
+
 # 10 Quality Requirements {#section-quality-scenarios}
 
 ## Quality Tree {#_quality_tree}
@@ -235,6 +237,16 @@ Mapping of Building Blocks to Infrastructure
 ## Quality Scenarios {#_quality_scenarios}
 
 # 11 Risks and Technical Debts {#section-technical-risks}
+
+|Risk | Description                                                                                                                                                                                               |
+|-|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|Integration with Third-Party Services| The application relies on third-party services for social sharing and other functionalities. Any changes or disruptions in these services could impact the application's performance and user experience. |
+|Data Security and Privacy| Ensuring the security and privacy of user data is critical. Any breaches or non-compliance with data protection regulations could result in legal issues and loss of user trust.                          |
+|Scalability and Performance| As the user base grows, the application must handle increased load without performance degradation. Inadequate scalability measures could lead to slow response times and poor user experience.           |
+|Dependency on External APIs| The application depends on external APIs for various functionalities. Any changes or downtime in these APIs could affect the application's performance and reliability.                                   |
+|Compatibility with Multiple Platforms| Ensuring the application is compatible with multiple platforms and devices is challenging. Inadequate testing and optimization could result in a poor user experience on certain platforms.               |
+|Compliance with Legal and Regulatory Requirements| The application must comply with various legal and regulatory requirements. Non-compliance could result in legal issues, fines, and damage to the application's reputation.                               |
+|Maintenance and Support| Providing ongoing maintenance and support is essential for the application's success. Inadequate resources or planning could lead to unresolved issues and reduced user satisfaction.                     |
 
 # 12 Glossary {#section-glossary}
 
