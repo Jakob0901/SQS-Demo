@@ -176,55 +176,147 @@ Important Interfaces
 
 ## \<Runtime Scenario n> {#__runtime_scenario_n}
 
-# 7 Deployment View {#section-deployment-view}
+# 7 Deployment View 
 
-## Infrastructure Level 1 {#_infrastructure_level_1}
+**Content**
 
-***\<Overview Diagram>***
+The deployment view describes:
+
+- The technical infrastructure used to execute your system, including environments, servers, processors, channels, network topologies, and other infrastructure elements.
+- The mapping of (software) building blocks to these infrastructure elements.
+
+**Motivation**
+
+Software does not run without hardware. 
+This underlying infrastructure can and will influence your system and/or some cross-cutting concepts. 
+Therefore, you need to know the infrastructure.
+
+## Infrastructure Level 1 
+
+Description
+
+The movie quotes application is deployed across multiple environments to ensure development, testing, and production needs are met. 
+The infrastructure includes:
+
+**_Overview Diagram_**
+
+![Level 1 Overview](images/architecture-l1.png)
 
 Motivation
 
-:   *\<explanation in text form>*
+:   The deployment structure is designed to ensure high availability, low latency, and efficient resource utilization. 
+The application is deployed in a cloud environment, ensuring scalability and flexibility.
+The application is containerized using Docker, allowing for easy deployment and management of services.
+By utilizing a microservices architecture, the application can be easily maintained.
 
 Quality and/or Performance Features
 
-:   *\<explanation in text form>*
+:   **High Availability**:The application is designed to be highly available by utilizing a microservices architecture, that can be quickly booted, modified and scaled as needed.<br>
+**Scalability**: The cloud-based infrastructure allows for easy scaling of resources to handle increased load and user base.<br>
+**Security**: The application is designed with security in mind, utilizing encryption and secure authentication methods to protect user data and interactions.
 
 Mapping of Building Blocks to Infrastructure
 
-:   *\<description of the mapping>*
+:  **Production Enviroment:** The production environment is where the application is deployed and accessed by end-users.
+**Cloud VMs**: The application is deployed on cloud-based virtual machines (VMs) to ensure scalability and flexibility.
+**Cloud Infrastructure**: The application is hosted on a cloud infrastructure, allowing for easy scaling and management of resources.
 
 ## Infrastructure Level 2 {#_infrastructure_level_2}
 
-### *\<Infrastructure Element 1>* {#__emphasis_infrastructure_element_1_emphasis}
+### Application 
 
-*\<diagram + explanation>*
+**Overview Diagram**
 
-### *\<Infrastructure Element 2>* {#__emphasis_infrastructure_element_2_emphasis}
+![Level 2 Overview](images/architecture-l2.png)
 
-*\<diagram + explanation>*
-
-...
-
-### *\<Infrastructure Element n>* {#__emphasis_infrastructure_element_n_emphasis}
-
-*\<diagram + explanation>*
+**Explanation**
+:   **Restful APIs**: The application is designed with RESTful APIs to facilitate seamless integration with other services and applications. 
+It also provides a user-friendly interface for the Web application.<br>
+**Database**: The application uses a SQL database (PostgreSQL) to ensure data integrity and reliability.'
+**API**: The application relies on third-party services for social sharing and other functionalities.
+**Web Application**: The application provides a user-friendly interface for interacting with the API, allowing users to view and save quotes.
 
 # 8 Cross-cutting Concepts {#section-concepts}
 
-## *\<Concept 1>* {#__emphasis_concept_1_emphasis}
+## Authentication
 
-*\<explanation>*
+**Purpose**
+Prevent unauthorized access to the application and its data by implementing secure authentication mechanisms.
 
-## *\<Concept 2>* {#__emphasis_concept_2_emphasis}
+**Implementation**
 
-*\<explanation>*
+```python
+def require_api_key(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if request.headers.get('x-api-key') == API_KEY:
+            return f(*args, **kwargs)
+        else:
+            return jsonify({"message": "Forbidden"}), 403
 
-...
+    return decorated_function
+```
 
-## *\<Concept n>* {#__emphasis_concept_n_emphasis}
+The implementation of authentication in the application is done using API keys.
+It is implemented with a decorator function that checks the API key in the request headers.
+If the API key is valid, the request is processed; otherwise, a 403 Forbidden response is returned.
 
-*\<explanation>*
+**Impact**
+
+The implementation of authentication in the application ensures that only authorized users can access the API and its resources.
+
+## Tenacity
+
+**Purpose**
+
+The purpose of implementing tenacity in the application is to ensure that the application can handle transient errors and retries requests when necessary.
+Transient errors can occur due to network issues, temporary unavailability of services, or other factors that may cause a request to fail.
+By implementing tenacity, the application can automatically retry failed requests, improving reliability and user experience.
+This is used for the connection with the the third-party API.
+
+**Implementation**
+
+```python
+from tenacity import retry
+
+@retry
+def get_random_quote(self):
+    # do request
+    pass
+```
+
+The implementation of tenacity in the application is done using the tenacity library.
+The `@retry` decorator is used to automatically retry the `get_random_quote` method when it fails.
+This is handled in the wrapper class of the API.
+
+**Impact**
+
+The implementation of tenacity in the application ensures that the application can handle transient errors and retries requests when necessary.
+
+## Logging
+
+**Purpose**
+
+The purpose of logging in the application is to provide a mechanism for tracking and recording events, errors, and other important information during the application's execution.
+Logging is essential for debugging, monitoring, and maintaining the application, as it allows developers and administrators to understand the application's behavior and identify issues.
+
+**Implementation**
+
+```python
+import logging
+
+logging.basicConfig(level=logging.INFO)
+
+logger = logging.getLogger(__name__)
+
+logger.info("This is an info message")
+```
+
+The implementation of logging in the application is done using the built-in logging module in Python.
+
+**Impact**
+
+The implementation of logging in the application ensures that important events and errors are recorded, allowing developers and administrators to monitor the application's behavior and troubleshoot issues effectively.
 
 # 9 Architecture Decisions {#section-design-decisions}
 
@@ -232,11 +324,29 @@ Architecture decisions are recorded in the adr folder located at documentation/a
 
 # 10 Quality Requirements {#section-quality-scenarios}
 
-## Quality Tree {#_quality_tree}
+## Quality Requirements Overview
 
-## Quality Scenarios {#_quality_scenarios}
+| ID      | Description                                                                                                                                      |
+|---------|--------------------------------------------------------------------------------------------------------------------------------------------------|
+| 10.1.1  | Users can easily navigate the application and discover movie quotes without requiring extensive training or documentation.                       |
+| 10.1.2  | The application provides clear and concise error messages that help users understand and resolve issues quickly.                                 |
+| 10.1.3  | The application's modular architecture allows for easy updates and maintenance, with well-documented code and clear separation of concerns.      |
+| 10.1.4  | Comprehensive test coverage ensures that changes to the codebase do not introduce new issues, facilitating safe and reliable updates.            |
+| 10.1.5  | The application implements robust error handling and data validation to ensure reliable operation and data integrity.                            |
+| 10.1.6  | The application is designed to handle high user loads efficiently, ensuring optimal performance and responsiveness even during peak usage times. |
 
-# 11 Risks and Technical Debts {#section-technical-risks}
+## Quality Scenarios 
+
+|ID|Context/Background|Sources/Stimulus| Metric/Acceptance Criteria                                                                                                                 |
+|-|-|-|--------------------------------------------------------------------------------------------------------------------------------------------|
+|10.2.1|Users navigating the application to discover movie quotes.|User interacts with the application interface.| Users can find and share movie quotes within 3 clicks or less, with a response time of under 2 seconds for each interaction.               |
+|10.2.2|Users encountering errors while using the application.|User performs an action that results in an error.| The application displays clear and concise error messages, guiding users to resolve the issue within 10 seconds.                           |
+|10.2.2|Users encountering errors while using the application.|User performs an action that results in an error.| The application displays clear and concise error messages, guiding users to resolve the issue within 10 seconds.                           |
+|10.2.3|Application handling high user loads during peak usage times.|Multiple users accessing the application simultaneously.| The application maintains a response time of under 2 seconds for 95% of user interactions, even with 1000 concurrent users.                |
+|10.2.4|Application performing data validation and error handling.|User submits data to the application.| The application validates data and handles errors gracefully, ensuring data integrity and providing feedback to the user within 1 second.  |
+
+
+# 11 Risks and Technical Debts 
 
 |Risk | Description                                                                                                                                                                                               |
 |-|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
