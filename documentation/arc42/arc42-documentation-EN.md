@@ -61,122 +61,142 @@ The architecture of the application must meet the following quality goals:
 
 ## Business Context 
 
-**\<Diagram or Table>**
+### Context Diagram
 
-**\<optionally: Explanation of external domain interfaces>**
+![Business Context Diagram](images/buisness_context_diagram.png)
+
+### Communication Partners
+| Communication Partner | Inputs                                          | Outputs                                          |
+ |-----------------------|-------------------------------------------------|--------------------------------------------------|
+ | Users                 | User requests, search queries, user preferences | Movie quotes, search results, user notifications |
+ | External API          | API requests, authentication tokens             | Movie data, API responses                        |
+ | Database              | Data queries, data updates                      | Query results, data confirmations                |
+ | Build System          | Build requests, code changes                    | Build artifacts, deployment notifications        |
+
+
+### Description
+
+- **Users**: Interact with the application to search for, discover, and share movie quotes. Users provide input through the user interface and receive outputs such as search results and notifications.
+- **External API**: Provides additional movie data and functionalities. The application sends API requests and receives responses containing movie data.
+- **Database**: Stores and retrieves application data. The application sends data queries and updates, receiving query results and confirmations.
 
 ## Technical Context
 
-**\<Diagram or Table>**
+![Technical Context Diagram](images/technical_context_diagram.png)
 
-**\<optionally: Explanation of technical interfaces>**
+### Communication Partners
+| Domain-Specific I/O | Channel/Protocol | Transmission Media | Description                                                                |
+ |---------------------|------------------|--------------------|----------------------------------------------------------------------------|
+ | User Requests       | HTTP/HTTPS       | Web browsers       | Users interact with the application through web browsers using HTTP/HTTPS. |
+ | API Requests        | RESTful API      | API servers        | The application sends API requests to external APIs using RESTful API.     |
+ | Data Queries        | SQL              | Database servers   | The application sends data queries to the database using SQL.              |
+ | Build Requests      | CI/CD Pipeline   | Build servers      | The application sends build requests to the CI/CD pipeline for deployment. |
 
-**\<Mapping Input/Output to Channels>**
+### Description
+
+- **Users**: Interact with the application through web browsers and mobile devices using HTTP/HTTPS and WebSocket protocols.
+- **External API**: Communicates with the application using RESTful API and HTTPS protocols. The API is hosted on API servers and cloud services.
+- **Database**: Stores and retrieves application data using SQL and JDBC protocols. The database is hosted on database servers and cloud databases.
+- **Build System**: The application is built and deployed using a CI/CD pipeline, which communicates with build servers and cloud services using various protocols.
 
 # 4 Solution Strategy
 
-| Quality Goal | Scenario | Solution Approach                                                                | Link to Details |
-|--------------|-----|----------------------------------------------------------------------------------|-----------------|
-| Performance  | Users expect quick response times for interactions.  | Optimize database queries, use caching mechanisms, and implement load balancing. | Section 5.1     |
-| Scalability  | The application must handle an increasing number of users and quotes.  | Design for horizontal scaling, use container orchestration (e.g., Kubernetes).   | Section 5.2     |
-| Security     | Protect user data and ensure secure interactions.  | Implement encryption, secure authentication, and regular security audits.        | Section 5.3     |
-| Reliability     | Ensure minimal downtime and robust failover mechanisms.  | Use redundant systems, implement health checks, and monitor system performance.  | Section 5.4     |
-| Usability     | Provide an intuitive and engaging user experience.  | Conduct user testing, follow UX best practices, and gather user feedback.        | Section 5.5     |
-| Data Integrity     | Ensure data is stored reliably and accurately.  | Use a SQL database (PostgreSQL) to ensure data integrity and reliability.        | Section 5.6     |
-| Integration     | Ensure easy integration with other services and applications.  | Design with RESTful APIs to facilitate seamless integration.        | Section 5.7     |
+| Quality Goal   | Scenario                                                              | Solution Approach                                                                | Link to Details |
+|----------------|-----------------------------------------------------------------------|----------------------------------------------------------------------------------|-----------------|
+| Performance    | Users expect quick response times for interactions.                   | Optimize database queries, use caching mechanisms, and implement load balancing. | Section 5.1     |
+| Scalability    | The application must handle an increasing number of users and quotes. | Design for horizontal scaling, use container orchestration (e.g., Kubernetes).   | Section 5.2     |
+| Security       | Protect user data and ensure secure interactions.                     | Implement encryption, secure authentication, and regular security audits.        | Section 5.3     |
+| Reliability    | Ensure minimal downtime and robust failover mechanisms.               | Use redundant systems, implement health checks, and monitor system performance.  | Section 5.4     |
+| Usability      | Provide an intuitive and engaging user experience.                    | Conduct user testing, follow UX best practices, and gather user feedback.        | Section 5.5     |
+| Data Integrity | Ensure data is stored reliably and accurately.                        | Use a SQL database (PostgreSQL) to ensure data integrity and reliability.        | Section 5.6     |
+| Integration    | Ensure easy integration with other services and applications.         | Design with RESTful APIs to facilitate seamless integration.                     | Section 5.7     |
 
 # 5 Building Block View 
 
 ## Whitebox Overall System 
 
-***\<Overview Diagram>***
+![Overall System Architecture](images/architecture-overall-whitebox.png)
 
-Motivation
+Rational:
+The overall system architecture is designed to provide a clear separation of concerns, with distinct layers for the Web application, API, and database.
+The application is designed to connect the different components of the system.
+The Web application provides a way for user interaction.
+The external API provides a way to fetch random quotes.
+The database provides a way to persistently store data.
 
-:   *\<text explanation>*
+## Level 2 
 
-Contained Building Blocks
+![Overall System Architecture](images/architecture-l2.png)
 
-:   *\<Description of contained building block (black boxes)>*
+Contained Blackboxes
 
-Important Interfaces
+| Blackbox | Description                                                                                                           |
+|----------|-----------------------------------------------------------------------------------------------------------------------|
+| app      | Handles HTTP requests and responses, providing a user-friendly interface for interacting with the API.                |
+| index    | Provides the main page for the Web application, allowing users to view and save quotes.                               |
+| wrapper  | Provides a consistent interface for interacting with external services, such as the third-party API for movie quotes. |
+| database | Handles the interaction with the SQL database, including saving and retrieving quotes.                                |
 
-:   *\<Description of important interfaces>*
+### Blackbox 
 
-### \<Name black box 1> {#__name_black_box_1}
+#### app
 
-*\<Purpose/Responsibility>*
+The app is the main entry point for the application, handling HTTP requests and responses.
+It uses Flask to create a web application that provides a user-friendly interface for interacting with the API.
+It includes routes for fetching random quotes, saving quotes, and retrieving stored quotes.
+The functionality of the app is divided into several routes, each responsible for a specific action.
+The app also includes error handling and logging to ensure a smooth user experience.
 
-*\<Interface(s)>*
+#### index
 
-*\<(Optional) Quality/Performance Characteristics>*
+Contains the main page for the Web application, allowing users to view and save quotes.
+It provides a user-friendly interface for interacting with the API and includes features such as, viewing random quotes, and saving and retrieving favorite quotes.
 
-*\<(Optional) Directory/File Location>*
+#### wrapper
 
-*\<(Optional) Fulfilled Requirements>*
+The wrapper python package contains all wrapper classes for the application.
+Thereby a wrapper is split into two parts:
+- Internal wrapper: This is the main wrapper class that provides a consistent interface for interacting with external services, such as the third-party API for movie quotes.
+- External wrapper: This is the wrapper class that provides a consistent interface for interacting with the external API, allowing the application to fetch random quotes and save quotes.
 
-*\<(optional) Open Issues/Problems/Risks>*
+External wrapper are stored in the subpackages.
+Those can contain multiplw wrapper classes implementing different external APIs to solve the same issue.
 
-### \<Name black box 2> {#__name_black_box_2}
+#### database
 
-*\<black box template>*
-
-### \<Name black box n> {#__name_black_box_n}
-
-*\<black box template>*
-
-### \<Name interface 1> {#__name_interface_1}
-
-...
-
-### \<Name interface m> {#__name_interface_m}
-
-## Level 2 {#_level_2}
-
-### White Box *\<building block 1>* {#_white_box_emphasis_building_block_1_emphasis}
-
-*\<white box template>*
-
-### White Box *\<building block 2>* {#_white_box_emphasis_building_block_2_emphasis}
-
-*\<white box template>*
-
-...
-
-### White Box *\<building block m>* {#_white_box_emphasis_building_block_m_emphasis}
-
-*\<white box template>*
-
-## Level 3 {#_level_3}
-
-### White Box \<\_building block x.1\_\> {#_white_box_building_block_x_1}
-
-*\<white box template>*
-
-### White Box \<\_building block x.2\_\> {#_white_box_building_block_x_2}
-
-*\<white box template>*
-
-### White Box \<\_building block y.1\_\> {#_white_box_building_block_y_1}
-
-*\<white box template>*
+The database python package contains all database-related classes and functions for the application.
+The main class is Storage that contains the implementation of the connection with the postgresql database.
 
 # 6 Runtime View {#section-runtime-view}
 
-## \<Runtime Scenario 1> {#__runtime_scenario_1}
+## Request Quote
 
--   *\<insert runtime diagram or textual description of the scenario>*
+![Runtime View - Request Quote](images/runtime-request-quote.png)
 
--   *\<insert description of the notable aspects of the interactions
-    between the building block instances depicted in this diagram.\>*
+1. Try get_quote: access on the api to retrieve a random quote.
+2. Request get_random_quote: Call the wrapper class to get a random quote from the third-party API.
+3. get_quote_random: call the http client to get a random quote from the third-party API.
+4. request.get: Send a GET request to the third-party API to retrieve a random quote.
 
-## \<Runtime Scenario 2> {#__runtime_scenario_2}
+## Save Quote
 
-## ... {#_}
+![Runtime View - Save Quote](images/runtime-save-quote.png)
 
-## \<Runtime Scenario n> {#__runtime_scenario_n}
+1. Try save_quote: access on the api to save a quote.
+2. require_api_key: Check if the API key is valid.
+3. store_quote: Call the wrapper class to save the quote in the database.
+4. SQL-Request: Use SQLAlchemy to interact with the database and save the quote.
+
+## Retrieve saved Quotes
 
 # 7 Deployment View 
+
+![Deployment View Overview](images/deployment-view-overview.png)
+
+1. Try get_stored_quotes: access on the api to retrieve stored quotes.
+2. require_api_key: Check if the API key is valid.
+3. get_stored_quotes: Call the wrapper class to retrieve stored quotes from the database.
+4. SQL-Request: Use SQLAlchemy to interact with the database and retrieve stored quotes.
 
 **Content**
 
