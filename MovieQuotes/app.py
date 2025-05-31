@@ -7,68 +7,65 @@ from flask_wtf.csrf import CSRFProtect
 from wrapper.QuotesApi import QuotesApi
 from database.Storage import DatabaseWrapper
 
-# Setup Flask app
-app = Flask(__name__)
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'default_secret_key')
-app.config['WTF_CSRF_ENABLED'] = True
-csrf = CSRFProtect(app)
+class FlaskApp:
+    def __init__(self):
+        self.app = Flask(__name__)
+        self.app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'default_secret_key')
+        self.app.config['WTF_CSRF_ENABLED'] = True
+        self.csrf = CSRFProtect(self.app)
 
-quotes_api_wrapper = QuotesApi()
+        self.quotes_api_wrapper = QuotesApi()
+        self.API_KEY = os.environ.get('API_KEY')
+        self.db = None  # Platzhalter für Unitests; regulär wird er in der Funktion initialize_database() initialisiert
 
-API_KEY = os.environ.get('API_KEY')
+        self.initialize_database()
 
-db = None  # Platzhalter für Unitests; regulär wird er in der Funktion initialize_database() initialisiert
+        self.app.route('/')(self.get_index)
+        self.app.route('/quote')(self.get_quote)
+        self.app.route('/stored_quotes')(self.require_api_key(self.get_stored_quotes))
+        self.app.route('/save', methods=['POST'])(self.require_api_key(self.save_quote))
 
-def initialize_database():
-    global db
-    database_url = os.environ.get('DATABASE_URL', 'localhost:5432')
-    username = os.environ.get('DB_USERNAME', 'username')
-    password = os.environ.get('DB_PASSWORD', 'password')
-    db = DatabaseWrapper(database_url, username, password)
+    def initialize_database(self):
+        if os.environ.get('FLASK_ENV') != 'testing':
+            database_url = os.environ.get('DATABASE_URL', 'localhost:5432')
+            username = os.environ.get('DB_USERNAME', 'username')
+            password = os.environ.get('DB_PASSWORD', 'password')
+            self.db = DatabaseWrapper(database_url, username, password)
 
-if os.environ.get('FLASK_ENV') != 'testing':
-    initialize_database()
+    def require_api_key(self, f):
+        @wraps(f)
+        def decorated_function(*args, **kwargs):
+            if request.headers.get('x-api-key') == self.API_KEY:
+                return f(*args, **kwargs)
+            else:
+                return jsonify({"message": "Forbidden"}), 403
+        return decorated_function
 
-def require_api_key(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        print(request.headers.get('x-api-key'))
-        print(API_KEY)
-        if request.headers.get('x-api-key') == API_KEY:
-            return f(*args, **kwargs)
+    def get_index(self):
+        return render_template('index.html')
+
+    def get_quote(self):
+        return self.quotes_api_wrapper.get_random_quote()
+
+    def get_stored_quotes(self):
+        return self.db.get_all_quotes() if self.db else jsonify([])
+
+    def save_quote(self):
+        data = request.form.get('quote')
+        logging.info(data)
+        if not data:
+            return jsonify({"message": "No quote provided"}), 400
         else:
-            return jsonify({"message": "Forbidden"}), 403
+            if self.db:
+                self.db.store_quote(data)
+                logging.info("Quote saved to database")
+            return jsonify({"message": "Quote saved!"}), 200
 
-    return decorated_function
-
-@app.route('/')
-def get_index():
-    return render_template('index.html')
-
-@app.route('/quote')
-def get_quote():
-    return quotes_api_wrapper.get_random_quote()
-
-@app.route('/stored_quotes')
-@require_api_key
-def get_stored_quotes():
-    return db.get_all_quotes() if db else jsonify([])
-
-@app.route('/save', methods=['POST'])
-@require_api_key
-def save_quote():
-    data = request.form.get('quote')
-    logging.info(data)
-    if not data:
-        return jsonify({"message": "No quote provided"}), 400
-    else:
-        if db:
-            db.store_quote(data)
-            logging.info("Quote saved to database")
-        return jsonify({"message": "Quote saved!"}), 200
+    def run(self):
+        if not self.API_KEY:
+            raise ValueError("No API_KEY environment variable set")
+        self.app.run()
 
 if __name__ == '__main__':
-    if not API_KEY:
-        raise ValueError("No API_KEY environment variable set")
-
-    app.run()
+    flask_app = FlaskApp()
+    flask_app.run()
