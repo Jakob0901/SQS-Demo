@@ -12,8 +12,7 @@ class TestQuotesApi(unittest.TestCase):
         self.api = QuotesApi()
         self.api.client = MagicMock()
 
-    @patch('MovieQuotes.wrapper.QuotesApi.PythonQuoteApi')
-    def test_get_random_quote_success(self, mock_python_quote_api):
+    def test_get_random_quote_success(self):
         # Mock die Methode get_quote_random
         self.api.client.get_random_quote.return_value = ("This is a test quote.", "Test Author")
 
@@ -24,8 +23,7 @@ class TestQuotesApi(unittest.TestCase):
         self.assertEqual(result['quote'], "This is a test quote.")
         self.assertEqual(result['source'], "Test Author")
 
-    @patch('MovieQuotes.wrapper.QuotesApi.PythonQuoteApi')
-    def test_get_random_quote_failure(self, mock_python_quote_api):
+    def test_get_random_quote_failure(self):
         # Mock die Methode get_quote_random, um None zurückzugeben
         self.api.client.get_quote_random.return_value = (None, None)
 
