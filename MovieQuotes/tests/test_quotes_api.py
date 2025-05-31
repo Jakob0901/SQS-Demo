@@ -14,7 +14,7 @@ class TestQuotesApi(unittest.TestCase):
 
     def test_get_random_quote_success(self):
         # Mock die Methode get_quote_random
-        self.api.client.get_random_quote.return_value = ("This is a test quote.", "Test Author")
+        self.api.client.get_quote_random.return_value = ("This is a test quote.", "Test Author")
 
         # rufe die Methode auf
         result = self.api.get_random_quote()
