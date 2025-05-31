@@ -5,7 +5,7 @@ from functools import wraps
 from flask_wtf.csrf import CSRFProtect
 
 from wrapper.QuotesApi import QuotesApi
-from database.Storage import DatabaseWrapper
+from database.Storage import Storage
 
 class FlaskApp:
     def __init__(self):
@@ -30,7 +30,7 @@ class FlaskApp:
             database_url = os.environ.get('DATABASE_URL', 'localhost:5432')
             username = os.environ.get('DB_USERNAME', 'username')
             password = os.environ.get('DB_PASSWORD', 'password')
-            self.db = DatabaseWrapper(database_url, username, password)
+            self.db = Storage(database_url, username, password)
 
     def require_api_key(self, f):
         @wraps(f)
