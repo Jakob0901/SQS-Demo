@@ -7,8 +7,6 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 
 from MovieQuotes.wrapper.QuotesApi import QuotesApi
 
-
-
 class TestQuotesApi(unittest.TestCase):
     @patch('MovieQuotes.wrapper.QuotesApi.PythonQuoteApi')
     def test_get_random_quote_success(self, mock_python_quote_api):

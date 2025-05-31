@@ -5,7 +5,7 @@ from unittest.mock import patch
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from MovieQuotes.wrapper.quotes_impl.PythonQuoteApi import PythonQuoteApi
+from wrapper.quotes_impl.PythonQuoteApi import PythonQuoteApi
 
 class TestPythonQuoteApi(unittest.TestCase):
     @patch('MovieQuotes.wrapper.quotes_impl.PythonQuoteApi.requests.get')
