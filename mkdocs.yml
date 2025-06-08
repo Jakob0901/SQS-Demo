@@ -1,0 +1,5 @@
+site_name: SQS-Demo
+theme:
+  name: readthedocs
+nav:
+  - Readme: index.md
