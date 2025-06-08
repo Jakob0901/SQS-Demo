@@ -1,2 +1,5 @@
- theme:
-   name: material
+site_name: SQS-Demo
+theme:
+  name: material
+nav:
+  - Startseite: README.md
