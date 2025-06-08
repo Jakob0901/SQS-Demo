@@ -10,6 +10,10 @@ build:
   tools:
     python: "3.13"
 
+  jobs:
+    pre_build:
+      - cp README.md docs/index.md
+
 # Build documentation with Mkdocs
 mkdocs:
    configuration: mkdocs.yml
