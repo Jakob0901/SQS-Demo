@@ -1,5 +1,5 @@
 site_name: SQS-Demo
 theme:
-  name: material
+  name: readthedocs
 nav:
   - Startseite: README.md
