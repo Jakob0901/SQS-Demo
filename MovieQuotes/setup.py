@@ -9,7 +9,7 @@ setup(
         'Flask',
         'Flask-WTF',
         'SQLAlchemy',
-        'psycopg2',
+        'psycopg2-binary',
         'requests',
         'tenacity',
         'coverage',

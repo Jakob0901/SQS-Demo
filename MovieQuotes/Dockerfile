@@ -19,4 +19,4 @@ ENV FLASK_RUN_HOST=0.0.0.0
 ENV FLASK_RUN_PORT=80
 
 # Run the Flask application
-CMD ["flask", "run"]
+CMD ls -l && python3 app.py
