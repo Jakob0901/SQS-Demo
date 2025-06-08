@@ -2,4 +2,4 @@ site_name: SQS-Demo
 theme:
   name: readthedocs
 nav:
-  - Startseite: README.md
+  - Readme: index.md
