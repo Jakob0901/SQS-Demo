@@ -22,7 +22,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -f docker-compose/Dockerfile -t ghcr.io/${{ github.repository }}:latest .
+          docker build -f Moviequotes/Dockerfile -t ghcr.io/${{ github.repository }}:latest .
 
       - name: Push Docker image
         run: |
