@@ -1,50 +1,58 @@
-#import os
-#import sys
-#import unittest
-#from unittest.mock import patch
+import os
+import sys
+import unittest
+import requests
 
-#sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-#from wrapper.quotes_impl.PythonQuoteApi import PythonQuoteApi
+from wrapper.quotes_impl.PythonQuoteApi import PythonQuoteApi
 
-#class TestPythonQuoteApi(unittest.TestCase):
-#    def setUp(self):
-#        self.api = PythonQuoteApi()
-#        self.api.client = MagicMock()
+class DummyResponse:
+    def __init__(self, status_code=200, json_data=None):
+        self.status_code = status_code
+        self._json_data = json_data or {}
 
-#    @patch('MovieQuotes.wrapper.quotes_impl.PythonQuoteApi.requests.get')
-#    def test_get_quote_random_success(self, mock_get):
-#        # Mock die Antwort von requests.get
-#        mock_response = mock_get.return_value
-#        mock_response.status_code = 200
-#        mock_response.json.return_value = {
-#            'content': 'This is a test quote.',
-#            'author': 'Test Author'
-#        }
+    def json(self):
+        return self._json_data
 
-#        # Instanziiere die API und rufe die Methode auf
-#        api = PythonQuoteApi()
-#        quote, author = api.get_quote_random()
+class DummyTimeout(Exception):
+    pass
 
-#        # Überprüfe die Ergebnisse
-#        self.assertEqual(quote, 'This is a test quote.')
-#        self.assertEqual(author, 'Test Author')
-#        mock_get.assert_called_once_with(api.url, verify=False)
+class DummyRequestException(Exception):
+    pass
 
-#    @patch('MovieQuotes.wrapper.quotes_impl.PythonQuoteApi.requests.get')
-#    def test_get_quote_random_failure(self, mock_get):
-#        # Mock die Antwort von requests.get mit einem Fehlerstatus
-#        mock_response = mock_get.return_value
-#        mock_response.status_code = 500
+class TestPythonQuoteApi(unittest.TestCase):
+    def test_get_quote_random_success(self):
+        def fake_get(url, verify, timeout):
+            return DummyResponse(200, {'content': 'Test', 'author': 'Tester'})
+        api = PythonQuoteApi(requests_get=fake_get)
+        quote, author = api.get_quote_random()
+        self.assertEqual(quote, 'Test')
+        self.assertEqual(author, 'Tester')
 
-#        # Instanziiere die API und rufe die Methode auf
-#        api = PythonQuoteApi()
-#        quote, author = api.get_quote_random()
+    def test_get_quote_random_non_200(self):
+        def fake_get(url, verify, timeout):
+            return DummyResponse(404)
+        api = PythonQuoteApi(requests_get=fake_get)
+        quote, author = api.get_quote_random()
+        self.assertIsNone(quote)
+        self.assertIsNone(author)
 
-#        # Überprüfe die Ergebnisse
-#        self.assertIsNone(quote)
-#        self.assertIsNone(author)
-#        mock_get.assert_called_once_with(api.url, verify=False)
+    def test_get_quote_random_timeout(self):
+        def fake_get(url, verify, timeout):
+            raise requests.exceptions.Timeout()
+        api = PythonQuoteApi(requests_get=fake_get)
+        quote, author = api.get_quote_random()
+        self.assertIsNone(quote)
+        self.assertIsNone(author)
 
-#if __name__ == '__main__':
-#    unittest.main()
+    def test_get_quote_random_request_exception(self):
+        def fake_get(url, verify, timeout):
+            raise requests.exceptions.RequestException("Fehler")
+        api = PythonQuoteApi(requests_get=fake_get)
+        quote, author = api.get_quote_random()
+        self.assertIsNone(quote)
+        self.assertIsNone(author)
+
+if __name__ == '__main__':
+    unittest.main()
