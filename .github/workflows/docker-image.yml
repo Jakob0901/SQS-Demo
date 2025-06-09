@@ -26,7 +26,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -f Moviequotes/Dockerfile -t $IMAGE .
+          docker build -f MovieQuotes/Dockerfile -t $IMAGE .
 
       - name: Push Docker image
         run: |
