@@ -4,8 +4,9 @@ import requests
 
 
 class PythonQuoteApi:
-    def __init__(self):
+    def __init__(self, requests_get=None):
         self.url = "https://api.quotable.io/random"
+        self.requests_get = requests_get or requests.get
 
     def get_quote_random(self):
         try:
