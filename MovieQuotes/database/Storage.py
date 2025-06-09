@@ -4,7 +4,7 @@ from sqlalchemy.orm import sessionmaker
 from models.FavoriteQuote import Base, FavoriteQuote
 import uuid
 
-class DatabaseWrapper:
+class Storage:
     def __init__(self, db_url, username, password):
         self.engine = create_engine(f'postgresql://{username}:{password}@{db_url}')
         Base.metadata.create_all(self.engine)
