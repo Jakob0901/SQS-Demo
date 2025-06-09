@@ -4,7 +4,7 @@ services:
   app:
     build:
       context: ..
-      dockerfile: MovieQuotes/Dockerfile
+      dockerfile: docker-compose/Dockerfile
     ports:
       - "80:80"
     environment:
