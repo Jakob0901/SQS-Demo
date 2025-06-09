@@ -4,8 +4,12 @@ on:
   push:
     branches:
       - main
-      - '**'
+    paths:
+      - 'MovieQuotes/**'
   pull_request:
+    paths:
+      - 'MovieQuotes/**'
+  workflow_dispatch:
 
 jobs:
   test:

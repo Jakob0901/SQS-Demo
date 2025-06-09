@@ -4,13 +4,13 @@ services:
   app:
     build:
       context: ..
-      dockerfile: MovieQuotes/Dockerfile
+      dockerfile: docker-compose/Dockerfile
     ports:
       - "80:80"
     environment:
       - API_KEY=secure
       - DB_USERNAME=user
-      - DATABASE_PASSWORD=${SHARED_PASSWORD}
+      - DB_PASSWORD=${SHARED_PASSWORD}
       - DATABASE_URL=db:5432/app_db
     depends_on:
       - db
