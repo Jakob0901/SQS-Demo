@@ -10,7 +10,7 @@ class PythonQuoteApi:
 
     def get_quote_random(self):
         try:
-            response = requests.get(self.url, verify=False, timeout=5)
+            response = self.requests_get(self.url, verify=False, timeout=5)
 
             if response.status_code == 200:
                 data = response.json()
