@@ -1,0 +1,70 @@
+name: Run Tests
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'MovieQuotes/**'
+  pull_request:
+    paths:
+      - 'MovieQuotes/**'
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Checkout des Repositorys
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # Wechsel in das Unterverzeichnis der Anwendung
+    - name: Change to application directory
+      run: cd MovieQuotes
+
+    # Einrichtung von Python
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    # Installation der Abhängigkeiten
+    - name: Install dependencies
+      run: |
+        cd MovieQuotes
+        python -m pip install --upgrade pip
+        pip install .
+
+    # Einrichtung von Umgebungsvariablen
+    - name: Set environment variables
+      env:
+        FLASK_ENV: testing
+        API_KEY: test_api_key
+        SECRET_KEY: test_secret_key
+        DATABASE_URL: localhost:5432
+        DB_USERNAME: username
+        DB_PASSWORD: password
+      run: echo "Environment variables set."
+
+    # Ausführen der Unit-Tests mit Coverage
+    - name: Run Unit Tests with Coverage
+      run: |
+        cd MovieQuotes
+        coverage run -m unittest discover -s tests -p "test_*.py"
+
+    # Coverage-Bericht generieren
+    - name: Generate Coverage Report
+      run: |
+        cd MovieQuotes
+        coverage report
+        coverage xml
+
+    # Upload coverage report
+    - name: Run codacy-coverage-reporter
+      uses: codacy/codacy-coverage-reporter-action@v1.3.0
+      with:
+        project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+        coverage-reports: MovieQuotes/coverage.xml
+        
