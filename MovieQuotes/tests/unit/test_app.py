@@ -6,7 +6,7 @@ import sys
 # Setzen der Umgebungsvariable für den Testkontext
 os.environ['FLASK_ENV'] = 'testing'
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
 from app import FlaskApp
 
