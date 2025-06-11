@@ -13,7 +13,7 @@ class PythonQuoteApi:
             "lang": "en"
         }
         try:
-            response = self.requests_get(self.url, params=params, verify=False, timeout=5)
+            response = self.requests_get(self.url, params=params, timeout=5)
 
             if response.status_code == 200:
                 data = response.json()

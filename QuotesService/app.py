@@ -44,12 +44,14 @@ class FlaskApp:
     def get_index(self):
         return render_template('index.html')
 
+    @require_api_key
     def get_quote(self):
         return self.quotes_api_wrapper.get_random_quote()
 
     def get_stored_quotes(self):
         return self.db.get_all_quotes() if self.db else jsonify([])
 
+    @require_api_key
     def save_quote(self):
         data = request.form.get('quote')
         logging.info(data)
