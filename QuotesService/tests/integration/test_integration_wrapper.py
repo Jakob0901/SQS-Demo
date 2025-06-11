@@ -24,44 +24,44 @@ class DummyRequestException(Exception):
 
 class TestPythonQuoteApi(unittest.TestCase):
     def test_get_quote_random_success(self):
-        def fake_get(url, verify, timeout):
-            return DummyResponse(200, {'content': 'Test', 'author': 'Tester'})
+        def fake_get(url, params, verify, timeout):
+            return DummyResponse(200, {'quoteText': 'Test', 'quoteAuthor': 'Tester'})
         api = PythonQuoteApi(requests_get=fake_get)
         wrapper = QuotesApi()
-        wrapper.quotes_impl = api
+        wrapper.client = api
 
         result = wrapper.get_random_quote()
         self.assertEqual('Test', result["quote"])
         self.assertEqual("Tester", result["source"])
 
     def test_get_quote_random_non_200(self):
-        def fake_get(url, verify, timeout):
+        def fake_get(url, params, verify, timeout):
             return DummyResponse(404)
         api = PythonQuoteApi(requests_get=fake_get)
         wrapper = QuotesApi()
-        wrapper.quotes_impl = api
+        wrapper.client = api
 
         result = wrapper.get_random_quote()
         self.assertIsNone(result["quote"])
         self.assertIsNone(result["source"])
 
     def test_get_quote_random_timeout(self):
-        def fake_get(url, verify, timeout):
+        def fake_get(url, params, verify, timeout):
             raise requests.exceptions.Timeout()
         api = PythonQuoteApi(requests_get=fake_get)
         wrapper = QuotesApi()
-        wrapper.quotes_impl = api
+        wrapper.client = api
 
         result = wrapper.get_random_quote()
         self.assertIsNone(result["quote"])
         self.assertIsNone(result["source"])
 
     def test_get_quote_random_request_exception(self):
-        def fake_get(url, verify, timeout):
+        def fake_get(url, params, verify, timeout):
             raise requests.exceptions.RequestException("Fehler")
         api = PythonQuoteApi(requests_get=fake_get)
         wrapper = QuotesApi()
-        wrapper.quotes_impl = api
+        wrapper.client = api
 
         result = wrapper.get_random_quote()
         self.assertIsNone(result["quote"])
