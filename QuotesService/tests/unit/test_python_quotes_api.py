@@ -23,15 +23,15 @@ class DummyRequestException(Exception):
 
 class TestPythonQuoteApi(unittest.TestCase):
     def test_get_quote_random_success(self):
-        def fake_get(url, verify, timeout):
-            return DummyResponse(200, {'content': 'Test', 'author': 'Tester'})
+        def fake_get(url, params, verify, timeout):
+            return DummyResponse(200, {'quoteText': 'Test', 'quoteAuthor': 'Tester'})
         api = PythonQuoteApi(requests_get=fake_get)
         quote, author = api.get_quote_random()
         self.assertEqual(quote, 'Test')
         self.assertEqual(author, 'Tester')
 
     def test_get_quote_random_non_200(self):
-        def fake_get(url, verify, timeout):
+        def fake_get(url,params, verify, timeout):
             return DummyResponse(404)
         api = PythonQuoteApi(requests_get=fake_get)
         quote, author = api.get_quote_random()
@@ -39,7 +39,7 @@ class TestPythonQuoteApi(unittest.TestCase):
         self.assertIsNone(author)
 
     def test_get_quote_random_timeout(self):
-        def fake_get(url, verify, timeout):
+        def fake_get(url, params, verify, timeout):
             raise requests.exceptions.Timeout()
         api = PythonQuoteApi(requests_get=fake_get)
         quote, author = api.get_quote_random()
@@ -47,7 +47,7 @@ class TestPythonQuoteApi(unittest.TestCase):
         self.assertIsNone(author)
 
     def test_get_quote_random_request_exception(self):
-        def fake_get(url, verify, timeout):
+        def fake_get(url, params, verify, timeout):
             raise requests.exceptions.RequestException("Fehler")
         api = PythonQuoteApi(requests_get=fake_get)
         quote, author = api.get_quote_random()
