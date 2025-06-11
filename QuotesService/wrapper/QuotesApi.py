@@ -12,10 +12,10 @@ class QuotesApi:
         """
         Get the random quote
         """
-        conten, source =  self.client.get_quote_random()
+        content, source =  self.client.get_quote_random()
 
         result = {
-            "quote": conten,
+            "quote": content,
             "source": source
         }
 
