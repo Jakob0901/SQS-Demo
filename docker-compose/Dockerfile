@@ -3,9 +3,9 @@ FROM python:3.11-slim-bookworm
 WORKDIR /app
 
 # Passe den Pfad an, damit QuotesService korrekt kopiert wird
-COPY ../QuotesService /app/MovieQuotes
+COPY ../QuotesService /app/QuotesService
 
-WORKDIR /app/MovieQuotes
+WORKDIR /app/QuotesService
 
 RUN pip install --no-cache-dir .
 
