@@ -54,5 +54,32 @@ class TestPythonQuoteApi(unittest.TestCase):
         self.assertIsNone(quote)
         self.assertIsNone(author)
 
+    def test_get_quote_random_missing_fields(self):
+        def fake_get(url, params, verify, timeout):
+            return DummyResponse(200, {'someOtherField': 'value'})
+
+        api = PythonQuoteApi(requests_get=fake_get)
+        quote, author = api.get_quote_random()
+        self.assertIsNone(quote)
+        self.assertIsNone(author)
+
+    def test_get_quote_random_empty_quote(self):
+        def fake_get(url, params, verify, timeout):
+            return DummyResponse(200, {'quoteText': '', 'quoteAuthor': 'Tester'})
+
+        api = PythonQuoteApi(requests_get=fake_get)
+        quote, author = api.get_quote_random()
+        self.assertIsNone(quote)
+        self.assertIsNone(author)
+
+    def test_get_quote_random_whitespace_handling(self):
+        def fake_get(url, params, verify, timeout):
+            return DummyResponse(200, {'quoteText': '  Test  ', 'quoteAuthor': '  Author  '})
+
+        api = PythonQuoteApi(requests_get=fake_get)
+        quote, author = api.get_quote_random()
+        self.assertEqual(quote, 'Test')
+        self.assertEqual(author, 'Author')
+
 if __name__ == '__main__':
     unittest.main()
