@@ -3,8 +3,12 @@ name: Integration Tests
 on:
   push:
     branches: [ main ]
+    paths:
+      - 'QuotesService/**'
   pull_request:
     branches: [ main ]
+    paths:
+      - 'QuotesService/**'
 
 jobs:
   test:
