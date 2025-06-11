@@ -32,4 +32,5 @@ class Storage:
         session = self.Session()
         quotes = session.query(FavoriteQuote).all()
         session.close()
-        return quotes
+
+        return [{'source': q.source, 'quote': q.quote} for q in quotes]

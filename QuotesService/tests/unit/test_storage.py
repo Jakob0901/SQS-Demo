@@ -33,8 +33,8 @@ class TestStorage(unittest.TestCase):
 
         # Überprüfe, ob das Zitat korrekt gespeichert und abgerufen wurde
         self.assertEqual(len(quotes), 1)
-        self.assertEqual(quotes[0].quote, quote_text)
-        self.assertEqual(quotes[0].source, quote_source)
+        self.assertEqual(quotes[0]["quote"], quote_text)
+        self.assertEqual(quotes[0]["source"], quote_source)
 
     def test_get_all_quotes_empty(self):
         # Hole alle Zitate ab, wenn keine vorhanden sind

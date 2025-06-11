@@ -33,8 +33,8 @@ class TestStorageIntegration(unittest.TestCase):
 
         # Check if the quote is correctly stored and retrieved
         self.assertEqual(len(quotes), 1)
-        self.assertEqual(quotes[0].quote, quote_text)
-        self.assertEqual(quotes[0].source, quote_source)
+        self.assertEqual(quotes[0]["quote"], quote_text)
+        self.assertEqual(quotes[0]["source"], quote_source)
 
     def test_get_all_quotes_empty(self):
         # Retrieve all quotes when none are present
