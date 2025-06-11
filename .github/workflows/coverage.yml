@@ -5,10 +5,10 @@ on:
     branches:
       - main
     paths:
-      - 'MovieQuotes/**'
+      - 'QuotesService/**'
   pull_request:
     paths:
-      - 'MovieQuotes/**'
+      - 'QuotesService/**'
   workflow_dispatch:
 
 jobs:
@@ -22,7 +22,7 @@ jobs:
 
     # Wechsel in das Unterverzeichnis der Anwendung
     - name: Change to application directory
-      run: cd MovieQuotes
+      run: cd QuotesService
 
     # Einrichtung von Python
     - name: Set up Python
@@ -66,5 +66,5 @@ jobs:
       uses: codacy/codacy-coverage-reporter-action@v1.3.0
       with:
         project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-        coverage-reports: MovieQuotes/coverage.xml
+        coverage-reports: QuotesService/coverage.xml
         
