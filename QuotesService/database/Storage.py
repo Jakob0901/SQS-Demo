@@ -14,7 +14,7 @@ class Storage:
             return
 
         try:
-            self.engine = create_engine(f'"{db_type}"://{username}:{password}@{db_url}')
+            self.engine = create_engine(f'{db_type}://{username}:{password}@{db_url}')
             Base.metadata.create_all(self.engine)
             self.Session = sessionmaker(bind=self.engine)
         except ValueError as e:
