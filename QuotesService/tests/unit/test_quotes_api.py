@@ -5,7 +5,7 @@ from unittest.mock import MagicMock
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
-from wrapper.QuotesApi import QuotesApi
+from wrapper.QuotesApi import QuotesApi, QuoteServiceError
 
 class TestQuotesApi(unittest.TestCase):
     def setUp(self):
@@ -27,12 +27,12 @@ class TestQuotesApi(unittest.TestCase):
         # Mock die Methode get_quote_random, um None zurückzugeben
         self.api.client.get_quote_random.return_value = (None, None)
 
-        # rufe die Methode auf
-        result = self.api.get_random_quote()
+        # Überprüfe, ob die erwartete Exception geworfen wird
+        with self.assertRaises(QuoteServiceError) as context:
+            self.api.get_random_quote()
 
-        # Überprüfe die Ergebnisse
-        self.assertIsNone(result['quote'])
-        self.assertIsNone(result['source'])
+        # Überprüfe die Fehlermeldung
+        self.assertEqual(str(context.exception), "Zitat nicht verfügbar")
 
 if __name__ == '__main__':
     unittest.main()
