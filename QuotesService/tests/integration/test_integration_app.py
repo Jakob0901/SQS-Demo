@@ -14,12 +14,19 @@ class TestAppIntegration(unittest.TestCase):
         # Setze Testumgebungsvariablen
         os.environ['FLASK_ENV'] = 'testing'
         os.environ['API_KEY'] = 'test_api_key'
+        os.environ['DB_USERNAME'] = 'postgres'
+        os.environ['DB_PASSWORD'] = 'postgres'
+        os.environ['DATABASE_URL'] = 'localhost:5432/testdb'
 
-        # Initialisiere Flask-App
+        # CSRF für Tests deaktivieren
         self.app = FlaskApp()
-        self.client = self.app.app.test_client()
+        self.app.app.config['WTF_CSRF_ENABLED'] = False
 
-        # Erstelle Test-Datenbank
+        # Test Client erstellen
+        self.client = self.app.app.test_client()
+        self.client.testing = True
+
+        # Test-Datenbank erstellen
         self.app.db = Storage(
             'localhost:5432/testdb',
             'postgres',
@@ -28,7 +35,6 @@ class TestAppIntegration(unittest.TestCase):
         )
 
     def tearDown(self):
-        # Lösche alle Testdaten
         if self.app.db and self.app.db.engine:
             from models.FavoriteQuote import Base
             Base.metadata.drop_all(self.app.db.engine)
@@ -38,45 +44,48 @@ class TestAppIntegration(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_get_quote(self):
-        response = self.client.get('/quote')
+        headers = {'x-api-key': 'test_api_key'}
+        response = self.client.get('/quote', headers=headers)
         self.assertEqual(response.status_code, 200)
 
     def test_save_quote_with_api_key(self):
         headers = {'x-api-key': 'test_api_key'}
         data = {'quote': 'Test Quote'}
-
-        response = self.client.post('/save',
-                                    data=data,
-                                    headers=headers)
-
+        response = self.client.post('/save', data=data, headers=headers)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(
-            json.loads(response.data.decode('utf-8')),
-            {"message": "Quote saved!"}
-        )
+        self.assertEqual(response.get_json(), {"message": "Quote saved!"})
 
     def test_save_quote_without_api_key(self):
         data = {'quote': 'Test Quote'}
         response = self.client.post('/save', data=data)
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(403, response.status_code)
+        self.assertEqual({"message": "Forbidden"}, response.get_json(), )
 
     def test_get_stored_quotes_with_api_key(self):
-        # Speichere zuerst einen Quote
+        # Erst Quote speichern
         headers = {'x-api-key': 'test_api_key'}
         data = {'quote': 'Test Quote'}
         self.client.post('/save', data=data, headers=headers)
 
-        # Hole gespeicherte Quotes
+        # Gespeicherte Quotes abrufen
         response = self.client.get('/stored_quotes', headers=headers)
         quotes = response.get_json()
 
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(200, response.status_code)
+        self.assertTrue(isinstance(quotes, list))
         self.assertEqual(len(quotes), 1)
-        self.assertEqual(quotes[0]['quote'], 'Test Quote')
+        self.assertEqual('Test Quote', quotes[0]['quote'])
 
     def test_get_stored_quotes_without_api_key(self):
         response = self.client.get('/stored_quotes')
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(403, response.status_code)
+        self.assertEqual({"message": "Forbidden"}, response.get_json())
+
+    def test_save_quote_no_data(self):
+        headers = {'x-api-key': 'test_api_key'}
+        response = self.client.post('/save', data={}, headers=headers)
+        self.assertEqual(400, response.status_code)
+        self.assertEqual({"message": "No quote provided"}, response.get_json(), )
 
 
 if __name__ == '__main__':
