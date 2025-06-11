@@ -7,6 +7,16 @@ from flask_wtf.csrf import CSRFProtect
 from wrapper.QuotesApi import QuotesApi
 from database.Storage import Storage
 
+def require_api_key(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        api_key = os.environ.get('API_KEY')
+        if request.headers.get('x-api-key') == api_key:
+            return f(*args, **kwargs)
+        else:
+            return jsonify({"message": "Forbidden"}), 403
+    return decorated_function
+
 class FlaskApp:
     def __init__(self):
         self.app = Flask(__name__)
@@ -16,38 +26,35 @@ class FlaskApp:
 
         self.quotes_api_wrapper = QuotesApi()
         self.API_KEY = os.environ.get('API_KEY')
-        self.db = None  # Platzhalter für Unitests; regulär wird er in der Funktion initialize_database() initialisiert
+        self.db = None
 
         self.initialize_database()
+        self.initialize_routes()
 
+    def initialize_routes(self):
         self.app.route('/')(self.get_index)
         self.app.route('/quote')(self.get_quote)
-        self.app.route('/stored_quotes')(self.require_api_key(self.get_stored_quotes))
-        self.app.route('/save', methods=['POST'])(self.require_api_key(self.save_quote))
+        self.app.route('/stored_quotes')(self.get_stored_quotes)
+        self.app.route('/save', methods=['POST'])(self.save_quote)
 
     def initialize_database(self):
-        if os.environ.get('FLASK_ENV') != 'testing':
-            database_url = os.environ.get('DATABASE_URL', 'localhost:5432')
-            username = os.environ.get('DB_USERNAME', 'username')
-            password = os.environ.get('DB_PASSWORD', 'password')
-            self.db = Storage(database_url, username, password)
-
-    def require_api_key(self, f):
-        @wraps(f)
-        def decorated_function(*args, **kwargs):
-            if request.headers.get('x-api-key') == self.API_KEY:
-                return f(*args, **kwargs)
-            else:
-                return jsonify({"message": "Forbidden"}), 403
-        return decorated_function
+        try:
+            if os.environ.get('FLASK_ENV') != 'testing':
+                database_url = os.environ.get('DATABASE_URL', 'localhost:5432')
+                username = os.environ.get('DB_USERNAME', 'username')
+                password = os.environ.get('DB_PASSWORD', 'password')
+                self.db = Storage(database_url, username, password)
+        except Exception as e:
+            logging.error(f"Datenbankinitialisierung fehlgeschlagen: {str(e)}")
+            self.db = None
 
     def get_index(self):
         return render_template('index.html')
 
-    @require_api_key
     def get_quote(self):
         return self.quotes_api_wrapper.get_random_quote()
 
+    @require_api_key
     def get_stored_quotes(self):
         return self.db.get_all_quotes() if self.db else jsonify([])
 
@@ -67,7 +74,3 @@ class FlaskApp:
         if not self.API_KEY:
             raise ValueError("No API_KEY environment variable set")
         self.app.run()
-
-if __name__ == '__main__':
-    flask_app = FlaskApp()
-    flask_app.run()
