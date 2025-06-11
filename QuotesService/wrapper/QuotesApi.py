@@ -38,6 +38,6 @@ class QuotesApi:
             logger.info("Zitat erfolgreich abgerufen")
             return result
 
-        except Exception as e:
+        except QuoteServiceError as e:
             logger.error(f"Fehler beim Abrufen des Zitats: {e}")
             raise QuoteServiceError(str(e)) from e
