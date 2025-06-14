@@ -76,15 +76,19 @@
             },
             saveQuote() {
                 const headers = {
-                    'x-api-key': this.apiKey,
-                    'Content-Type': 'application/x-www-form-urlencoded'
+                    'x-api-key': 'secure'
                 };
                 const data = new URLSearchParams();
                 data.append('quote', this.currentQuote.quote);
 
-                axios.post('/save', data, { headers })
-                    .then(() => this.loadSavedQuotes())
-                    .catch(error => console.error('Error:', error));
+                axios.post('http://localhost/save', data, {
+                    headers: headers
+                })
+                .then(response => {
+                    console.log('Success:', response);
+                    this.loadSavedQuotes();
+                })
+                .catch(error => console.error('Error:', error));
             },
             loadSavedQuotes() {
                 axios.get('/stored_quotes', {

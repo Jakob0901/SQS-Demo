@@ -1,11 +1,12 @@
 import logging
 import os
-from flask import Flask, request, jsonify, render_template
 from functools import wraps
+
+from flask import Flask, request, jsonify
 from flask_wtf.csrf import CSRFProtect
 
-from wrapper.QuotesApi import QuotesApi, QuoteServiceError
 from database.Storage import Storage, DatabaseError
+from wrapper.QuotesApi import QuotesApi, QuoteServiceError
 
 # Logger-Konfiguration
 logger = logging.getLogger(__name__)
