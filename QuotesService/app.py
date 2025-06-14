@@ -6,7 +6,6 @@ from flask import Flask, request, jsonify, render_template
 from functools import wraps
 from flask_wtf.csrf import CSRFProtect
 from flask_talisman import Talisman
-from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 
 from wrapper.QuotesApi import QuotesApi, QuoteServiceError
@@ -57,14 +56,6 @@ class FlaskApp:
                      'script-src': "'self' 'unsafe-inline' cdn.jsdelivr.net",
                      'style-src': "'self' 'unsafe-inline' cdn.jsdelivr.net",
                  })
-
-        # In der __init__ Methode:
-        #self.limiter = Limiter(
-        #    app=self.app,
-        #    key_func=get_client_identifier,
-        #    default_limits=["200 per day", "50 per hour"],
-        #    storage_uri="memory://"  # In-Memory Storage für Rate Limiting
-        #)
 
         self.app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'default_secret_key')
         self.app.config['WTF_CSRF_ENABLED'] = True
