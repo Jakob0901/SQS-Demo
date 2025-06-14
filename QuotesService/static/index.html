@@ -76,7 +76,7 @@
             },
             saveQuote() {
                 const headers = {
-                    'x-api-key': 'secure' // todo use this.apiKey instead
+                    'x-api-key': this.apiKey
                 };
                 const data = new URLSearchParams();
                 data.append('quote', this.currentQuote.quote);
