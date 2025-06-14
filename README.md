@@ -1,4 +1,3 @@
-```markdown
 # SQS-Demo (Simple Quote Service)
 
 Ein Service zum Abrufen und Speichern von Zitaten, bestehend aus einer Python/Flask-Backend-API und Vue.js Frontend.
@@ -55,4 +54,3 @@ Dieses Projekt steht unter der [MIT Lizenz](LICENSE).
 ## Weitere Informationen
 
 Detaillierte Informationen zur Installation, API-Dokumentation und Architektur finden Sie in der [Dokumentation](https://sqs-demo.readthedocs.io/).
-```
