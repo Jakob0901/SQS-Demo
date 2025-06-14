@@ -1,2 +1,3 @@
-skips: ['B101']
-exclude_dirs: ['tests', 'test']
+[bandit]
+skips = B101
+exclude_dirs = tests,test
