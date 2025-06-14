@@ -48,15 +48,15 @@ class FlaskApp:
         )
 
         # Security Headers
-        #Talisman(self.app,
-        #         force_https=True,
-        #         strict_transport_security=True,
-        #         session_cookie_secure=True,
-        #         content_security_policy={
-        #             'default-src': "'self'",
-        #             'script-src': "'self' 'unsafe-inline' cdn.jsdelivr.net",
-        #             'style-src': "'self' 'unsafe-inline' cdn.jsdelivr.net",
-        #         })
+        Talisman(self.app,
+                 force_https=False,
+                 strict_transport_security=True,
+                 session_cookie_secure=True,
+                 content_security_policy={
+                     'default-src': "'self'",
+                     'script-src': "'self' 'unsafe-inline' cdn.jsdelivr.net",
+                     'style-src': "'self' 'unsafe-inline' cdn.jsdelivr.net",
+                 })
 
         # In der __init__ Methode:
         #self.limiter = Limiter(
