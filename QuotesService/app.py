@@ -63,7 +63,7 @@ class FlaskApp:
 
     def get_index(self):
         logger.debug("Index-Seite wird angefordert")
-        return render_template('index.html')
+        return self.app.send_static_file('index.html')
 
     def get_quote(self):
         logger.debug("Zufälliges Zitat wird angefordert")
