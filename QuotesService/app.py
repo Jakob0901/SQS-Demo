@@ -40,6 +40,7 @@ class FlaskApp:
         logger.info("FlaskApp wird initialisiert")
         self.initialize_database()
         self.initialize_routes()
+        self.csrf.exempt(self.save_quote)
         logger.info("FlaskApp erfolgreich initialisiert")
 
     def initialize_routes(self):
