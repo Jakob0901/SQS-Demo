@@ -8,6 +8,7 @@ setup(
     install_requires=[
         'Flask',
         'Flask-WTF',
+        'Flask-Talisman',
         'SQLAlchemy',
         'psycopg2-binary',
         'requests',

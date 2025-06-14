@@ -1,8 +1,12 @@
 import logging
 import os
+from datetime import timedelta
+
 from flask import Flask, request, jsonify, render_template
 from functools import wraps
 from flask_wtf.csrf import CSRFProtect
+from flask_talisman import Talisman
+from flask_limiter.util import get_remote_address
 
 from wrapper.QuotesApi import QuotesApi, QuoteServiceError
 from database.Storage import Storage, DatabaseError
@@ -24,10 +28,35 @@ def require_api_key(f):
 
     return decorated_function
 
+def get_client_identifier():
+    # Nutze API-Key falls vorhanden, sonst IP-Adresse
+    return request.headers.get('x-api-key') or get_remote_address()
 
 class FlaskApp:
     def __init__(self):
         self.app = Flask(__name__)
+
+        # Session Security Config
+        self.app.config.update(
+            SESSION_COOKIE_SECURE=True,
+            SESSION_COOKIE_HTTPONLY=True,
+            SESSION_COOKIE_SAMESITE='Lax',
+            PERMANENT_SESSION_LIFETIME=timedelta(minutes=30),
+            JSON_SORT_KEYS=False,
+            MAX_CONTENT_LENGTH=16 * 1024 * 1024
+        )
+
+        # Security Headers
+        Talisman(self.app,
+                 force_https=False,
+                 strict_transport_security=True,
+                 session_cookie_secure=True,
+                 content_security_policy={
+                     'default-src': "'self'",
+                     'script-src': "'self' 'unsafe-inline' cdn.jsdelivr.net",
+                     'style-src': "'self' 'unsafe-inline' cdn.jsdelivr.net",
+                 })
+
         self.app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'default_secret_key')
         self.app.config['WTF_CSRF_ENABLED'] = True
         self.csrf = CSRFProtect(self.app)

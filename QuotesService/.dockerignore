@@ -2,3 +2,5 @@
 Dockerfile
 .dockerignore
 .idea/
+tests/
+.bandit
