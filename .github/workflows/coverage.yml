@@ -4,11 +4,9 @@ on:
   push:
     branches:
       - main
-    paths:
-      - 'MovieQuotes/**'
   pull_request:
     paths:
-      - 'MovieQuotes/**'
+      - 'QuotesService/**'
   workflow_dispatch:
 
 jobs:
@@ -22,7 +20,7 @@ jobs:
 
     # Wechsel in das Unterverzeichnis der Anwendung
     - name: Change to application directory
-      run: cd MovieQuotes
+      run: cd QuotesService
 
     # Einrichtung von Python
     - name: Set up Python
@@ -33,7 +31,7 @@ jobs:
     # Installation der Abhängigkeiten
     - name: Install dependencies
       run: |
-        cd MovieQuotes
+        cd QuotesService
         python -m pip install --upgrade pip
         pip install .
 
@@ -51,13 +49,13 @@ jobs:
     # Ausführen der Unit-Tests mit Coverage
     - name: Run Unit Tests with Coverage
       run: |
-        cd MovieQuotes
-        coverage run -m unittest discover -s tests -p "test_*.py"
+        cd QuotesService
+        coverage run -m unittest discover -s tests/unit -p "test_*.py"
 
     # Coverage-Bericht generieren
     - name: Generate Coverage Report
       run: |
-        cd MovieQuotes
+        cd QuotesService
         coverage report
         coverage xml
 
@@ -66,5 +64,5 @@ jobs:
       uses: codacy/codacy-coverage-reporter-action@v1.3.0
       with:
         project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-        coverage-reports: MovieQuotes/coverage.xml
+        coverage-reports: QuotesService/coverage.xml
         
