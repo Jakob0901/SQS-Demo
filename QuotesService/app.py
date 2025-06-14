@@ -107,4 +107,8 @@ class FlaskApp:
             logger.critical("Kein API_KEY in Umgebungsvariablen gefunden")
             raise ValueError("No API_KEY environment variable set")
         logger.info("Server wird gestartet")
-        self.app.run()
+        self.app.run(host='0.0.0.0', port=80)
+
+if __name__ == '__main__':
+    flask_app = FlaskApp()
+    flask_app.run()
