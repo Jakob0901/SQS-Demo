@@ -52,7 +52,7 @@ class FlaskApp:
     def initialize_database(self):
         try:
             if os.environ.get('FLASK_ENV') != 'testing':
-                database_url = os.environ.get('DATABASE_URL', 'localhost:5432')
+                database_url = os.environ.get('DATABASE_URL', 'localhost:5432/db')
                 username = os.environ.get('DB_USERNAME', 'username')
                 logger.info(f"Verbindung zur Datenbank wird hergestellt: {database_url}")
                 self.db = Storage(database_url, username, os.environ.get('DB_PASSWORD', 'password'))
