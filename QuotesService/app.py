@@ -1,11 +1,12 @@
 import logging
 import os
-from flask import Flask, request, jsonify, render_template
 from functools import wraps
+
+from flask import Flask, request, jsonify
 from flask_wtf.csrf import CSRFProtect
 
-from wrapper.QuotesApi import QuotesApi, QuoteServiceError
 from database.Storage import Storage, DatabaseError
+from wrapper.QuotesApi import QuotesApi, QuoteServiceError
 
 # Logger-Konfiguration
 logger = logging.getLogger(__name__)
@@ -39,6 +40,7 @@ class FlaskApp:
         logger.info("FlaskApp wird initialisiert")
         self.initialize_database()
         self.initialize_routes()
+        self.csrf.exempt(self.save_quote)
         logger.info("FlaskApp erfolgreich initialisiert")
 
     def initialize_routes(self):
@@ -52,7 +54,7 @@ class FlaskApp:
     def initialize_database(self):
         try:
             if os.environ.get('FLASK_ENV') != 'testing':
-                database_url = os.environ.get('DATABASE_URL', 'localhost:5432')
+                database_url = os.environ.get('DATABASE_URL', 'localhost:5432/db')
                 username = os.environ.get('DB_USERNAME', 'username')
                 logger.info(f"Verbindung zur Datenbank wird hergestellt: {database_url}")
                 self.db = Storage(database_url, username, os.environ.get('DB_PASSWORD', 'password'))
@@ -63,7 +65,7 @@ class FlaskApp:
 
     def get_index(self):
         logger.debug("Index-Seite wird angefordert")
-        return render_template('index.html')
+        return self.app.send_static_file('index.html')
 
     def get_quote(self):
         logger.debug("Zufälliges Zitat wird angefordert")
@@ -107,4 +109,8 @@ class FlaskApp:
             logger.critical("Kein API_KEY in Umgebungsvariablen gefunden")
             raise ValueError("No API_KEY environment variable set")
         logger.info("Server wird gestartet")
-        self.app.run()
+        self.app.run(host='127.0.0.1', port=80)
+
+if __name__ == '__main__':
+    flask_app = FlaskApp()
+    flask_app.run()
