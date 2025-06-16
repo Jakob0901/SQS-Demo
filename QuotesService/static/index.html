@@ -79,7 +79,7 @@
                     'x-api-key': this.apiKey
                 };
                 const data = new URLSearchParams();
-                data.append('quote', this.currentQuote.quote);
+                data.append('quote', this.currentQuote.quote); 
 
                 axios.post('http://localhost/save', data, {
                     headers: headers
