@@ -1,0 +1,12 @@
+[run]
+omit =
+    */tests/*
+    */__pycache__/*
+    tests/*
+    */site-packages/*
+
+[report]
+exclude_lines =
+    pragma: no cover
+    def __repr__
+    if __name__ == .__main__.:
