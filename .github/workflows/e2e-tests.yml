@@ -1,0 +1,64 @@
+name: E2E Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'QuotesService/**'
+      - 'docker-compose/**'
+      - '.github/workflows/e2e-tests.yml'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install test dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest-playwright requests
+          playwright install --with-deps
+
+      - name: Build and start with docker-compose
+        working-directory: ./docker-compose
+        run: ./start-compose.sh
+
+      - name: Wait for application to be ready
+        run: |
+          python -c '
+          import requests, time
+          for i in range(30):
+              try:
+                  response = requests.get("http://localhost:80/")
+                  if response.status_code == 200:
+                      print("Application is ready!")
+                      exit(0)
+              except requests.exceptions.ConnectionError:
+                  print("Waiting for application...")
+                  time.sleep(1)
+          exit(1)
+          '
+
+      - name: Run E2E tests
+        env:
+          API_KEY: test_api_key
+        working-directory: ./QuotesService
+        run: pytest tests/e2e -v
+
+      - name: Docker logs on failure
+        if: failure()
+        working-directory: ./docker-compose
+        run: docker-compose logs
+
+      - name: Cleanup
+        if: always()
+        working-directory: ./docker-compose
+        run: docker-compose down -v
