@@ -8,4 +8,4 @@ flak = flask.Flask(__name__)
 def index():
     return "Hello, World!"
 
-flak.run(debug=True)
+flak.run(debug=True, port=80)
