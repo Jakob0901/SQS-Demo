@@ -14,6 +14,22 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_DB: testdb
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
       - uses: actions/checkout@v3
 
@@ -22,10 +38,6 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install Docker Compose
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y docker-compose
 
       - name: Install test dependencies
         run: |
@@ -33,36 +45,24 @@ jobs:
           pip install pytest-playwright requests
           playwright install --with-deps
 
-      - name: Set execute permission for start-compose.sh
-        working-directory: ./docker-compose
-        run: chmod +x ./start-compose.sh
-
-      - name: Build and start with docker-compose
-        working-directory: ./docker-compose
+      - name: Install dependencies
+        working-directory: ./QuotesService
         run: |
-          ./start-compose.sh -d
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          pip install .  
 
-      - name: Wait for application to be ready
+      - name: Run integration tests
+        working-directory: ./QuotesService
+        env:
+          DATABASE_URL: localhost:5432/testdb
+          DB_USERNAME: postgres
+          DB_PASSWORD: postgres
+          API_KEY: test_api_key
         run: |
-          python -c '
-          import requests, time
-          print("Checking container status:")
-          import subprocess
-          subprocess.run("docker ps", shell=True)
-          print("\nWaiting for application at http://localhost:80/...")
-          for i in range(60):
-              try:
-                  response = requests.get("http://localhost:80/")
-                  response2 = requests.get("http://127.0.0.1:80/")
-                  if response.status_code == 200 or response2.status_code == 200:
-                      print("Application is ready!")
-                      exit(0)
-              except requests.exceptions.ConnectionError:
-                  print(f"Attempt {i+1}/60: Connection failed")
-                  time.sleep(1)
-          print("Failed to connect after 60 attempts")
-          exit(1)
-          '
+          nohup python app.py > app.log 2>&1 &
+          echo $! > app.pid
+          sleep 5  # Give the app time to start
 
       - name: Run E2E tests
         env:
@@ -70,12 +70,14 @@ jobs:
         working-directory: ./QuotesService
         run: pytest tests/e2e -v
 
-      - name: Docker logs on failure
-        if: failure()
-        working-directory: ./docker-compose
-        run: docker-compose logs
-
-      - name: Cleanup
+      - name: Show application logs
         if: always()
-        working-directory: ./docker-compose
-        run: docker-compose down -v
+        run: cat QuotesService/app.log
+
+      - name: Stop application
+        if: always()
+        run: |
+          if [ -f QuotesService/app.pid ]; then
+            kill $(cat QuotesService/app.pid)
+            rm QuotesService/app.pid
+          fi
