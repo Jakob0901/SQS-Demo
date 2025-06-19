@@ -68,7 +68,4 @@ jobs:
           echo $! > app.pid
           sleep 5
           pytest tests/e2e -v
-
-      - name: Show application logs
-        if: always()
-        run: cat QuotesService/app.log
+          
