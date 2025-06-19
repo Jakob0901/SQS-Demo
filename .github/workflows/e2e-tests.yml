@@ -13,12 +13,6 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-
-    services:
-      docker:
-        image: docker:dind
-        options: --network=host
-
     steps:
       - uses: actions/checkout@v3
 
@@ -45,7 +39,6 @@ jobs:
       - name: Build and start with docker-compose
         working-directory: ./docker-compose
         run: |
-          docker context use default
           ./start-compose.sh
 
       - name: Wait for application to be ready
