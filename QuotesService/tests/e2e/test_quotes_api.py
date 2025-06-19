@@ -88,8 +88,5 @@ def test_error_handling(page: Page):
     page.get_by_placeholder('API-Schlüssel eingeben').fill('invalid_key')
     page.get_by_role('button', name='Verbinden').click()
 
-    # Try to load saved quotes
-    page.get_by_role('button', name='Speichern').click()
-
-    # Verify connection state is reset
+    # Assert that "Speichern" is disabled (cannot save)
     expect(page.get_by_role('button', name='Speichern')).to_be_disabled()
