@@ -56,6 +56,12 @@ jobs:
         working-directory: ./QuotesService
         run: chmod +x app.py
 
+      - name: Set permissions
+        working-directory: ./QuotesService
+        run: |
+          sudo chown -R $USER:$USER .
+          chmod -R 755 .
+
       - name: Run application
         working-directory: ./QuotesService
         env:
@@ -68,4 +74,3 @@ jobs:
           echo $! > app.pid
           sleep 5
           pytest tests/e2e -v
-          
