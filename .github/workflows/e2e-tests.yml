@@ -52,15 +52,6 @@ jobs:
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
           pip install .  
 
-      - name: Set execute permission recursively
-        run: chmod -R +x .
-
-      - name: Set permissions
-        working-directory: ./QuotesService
-        run: |
-          sudo chown -R $USER:$USER .
-          chmod -R 755 .
-
       - name: Run application
         working-directory: ./QuotesService
         env:
@@ -70,6 +61,5 @@ jobs:
           API_KEY: test_api_key
         run: |
           python app.py &
-          echo $! > app.pid
           sleep 5
           pytest tests/e2e -v
