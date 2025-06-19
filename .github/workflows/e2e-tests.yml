@@ -13,8 +13,12 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    container:
-      image: docker:latest
+
+    services:
+      docker:
+        image: docker:dind
+        options: --network=host
+
     steps:
       - uses: actions/checkout@v3
 
@@ -22,6 +26,11 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
+
+      - name: Install Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker-compose
 
       - name: Install test dependencies
         run: |
@@ -35,7 +44,9 @@ jobs:
 
       - name: Build and start with docker-compose
         working-directory: ./docker-compose
-        run: ./start-compose.sh
+        run: |
+          docker context use default
+          ./start-compose.sh
 
       - name: Wait for application to be ready
         run: |
