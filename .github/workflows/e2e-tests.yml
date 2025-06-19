@@ -52,7 +52,7 @@ jobs:
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
           pip install .  
 
-      - name: Run integration tests
+      - name: Run application
         working-directory: ./QuotesService
         env:
           DATABASE_URL: localhost:5432/testdb
@@ -63,12 +63,7 @@ jobs:
           nohup python app.py > app.log 2>&1 &
           echo $! > app.pid
           sleep 5  # Give the app time to start
-
-      - name: Run E2E tests
-        env:
-          API_KEY: test_api_key
-        working-directory: ./QuotesService
-        run: pytest tests/e2e -v
+          pytest tests/e2e -v
 
       - name: Show application logs
         if: always()
