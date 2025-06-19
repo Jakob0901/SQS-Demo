@@ -27,6 +27,10 @@ jobs:
           pip install pytest-playwright requests
           playwright install --with-deps
 
+      - name: Set execute permission for start-compose.sh
+        working-directory: ./docker-compose
+        run: chmod +x ./start-compose.sh
+
       - name: Build and start with docker-compose
         working-directory: ./docker-compose
         run: ./start-compose.sh
