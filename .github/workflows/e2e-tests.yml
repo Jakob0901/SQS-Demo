@@ -9,6 +9,7 @@ on:
       - 'QuotesService/**'
       - 'docker-compose/**'
       - '.github/workflows/e2e-tests.yml'
+  workflow_dispatch:
 
 jobs:
   test:
@@ -45,7 +46,7 @@ jobs:
         run: |
           python -c '
           import requests, time
-          for i in range(30):
+          for i in range(120):
               try:
                   response = requests.get("http://localhost:80/")
                   if response.status_code == 200:
