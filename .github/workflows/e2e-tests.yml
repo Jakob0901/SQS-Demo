@@ -59,7 +59,10 @@ jobs:
           DB_USERNAME: postgres
           DB_PASSWORD: postgres
           API_KEY: test_api_key
+          FLASK_APP: app.py
+          FLASK_RUN_HOST: "0.0.0.0"
+          FLASK_RUN_PORT: "80"
         run: |
-          python app.py &
+          python test.py &
           sleep 5
           pytest tests/e2e -v
