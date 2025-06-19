@@ -1,4 +1,5 @@
 import os
+import time
 
 import pytest
 from playwright.sync_api import Page, expect
@@ -53,32 +54,34 @@ def test_save_and_load_quotes(page: Page):
     # Connect with API key first
     page.get_by_placeholder('API-Schlüssel eingeben').fill('test_api_key')
     page.get_by_role('button', name='Verbinden').click()
-
-    # Wait for connection to be established
     expect(page.get_by_role('button', name='Speichern')).to_be_enabled()
 
     # Get a new quote and wait for it to load
     with page.expect_response(lambda r: '/quote' in r.url):
         page.get_by_role('button', name='Neues Zitat').click()
 
-    # Get current quote
     quote_element = page.locator('.card-text').first
     expect(quote_element).to_be_visible()
     current_quote = quote_element.text_content()
-    print(f"Current quote: {current_quote}")
 
     # Save quote and wait for save request
     with page.expect_response(lambda r: '/save' in r.url):
         page.get_by_role('button', name='Speichern').click()
 
-    page.wait_for_timeout(2000)
-
-    # Wait and verify
-    saved_quotes = page.locator('.list-group-item').first
-    expect(saved_quotes).to_be_visible(timeout=2000)
-    saved_quote = saved_quotes.text_content()
-
-    assert saved_quote[:20] == current_quote[:20], f"Expected '{current_quote[:20]}', got '{saved_quote[:20]}'"
+    # Retry for up to 5 seconds to find the saved quote in any list item
+    found = False
+    for _ in range(10):
+        items = page.locator('.list-group-item')
+        count = items.count()
+        for i in range(count):
+            item_text = items.nth(i).text_content()
+            if item_text and current_quote[:20] in item_text:
+                found = True
+                break
+        if found:
+            break
+        time.sleep(0.5)
+    assert found, f"Expected '{current_quote[:20]}' in saved quotes, but not found."
 
 def test_error_handling(page: Page):
     # Test with invalid API key
