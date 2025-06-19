@@ -64,9 +64,9 @@ jobs:
           DB_PASSWORD: postgres
           API_KEY: test_api_key
         run: |
-          nohup python app.py > app.log 2>&1 &
+          python app.py &
           echo $! > app.pid
-          sleep 5  # Give the app time to start
+          sleep 5
           pytest tests/e2e -v
 
       - name: Show application logs
