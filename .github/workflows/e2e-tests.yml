@@ -46,15 +46,21 @@ jobs:
         run: |
           python -c '
           import requests, time
-          for i in range(120):
+          print("Checking container status:")
+          import subprocess
+          subprocess.run("docker ps", shell=True)
+          print("\nWaiting for application at http://localhost:80/...")
+          for i in range(60):
               try:
                   response = requests.get("http://localhost:80/")
-                  if response.status_code == 200:
+                  response2 = requests.get("http://127.0.0.1:80/")
+                  if response.status_code == 200 or response2.status_code == 200:
                       print("Application is ready!")
                       exit(0)
               except requests.exceptions.ConnectionError:
-                  print("Waiting for application...")
+                  print(f"Attempt {i+1}/60: Connection failed")
                   time.sleep(1)
+          print("Failed to connect after 60 attempts")
           exit(1)
           '
 
