@@ -52,8 +52,8 @@ jobs:
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
           pip install .  
 
-      - name: Set execute permission for all scripts
-        run: chmod +x *.py
+      - name: Set execute permission recursively
+        run: chmod -R +x .
 
       - name: Set permissions
         working-directory: ./QuotesService
