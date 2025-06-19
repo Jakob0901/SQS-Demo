@@ -1,10 +1,13 @@
+import os
+
 import pytest
 from playwright.sync_api import Page, expect
 
 
 @pytest.fixture(autouse=True)
 def setup(page: Page):
-    page.goto('http://localhost:80')
+    port = str(os.environ.get('QUOTES_SERVICE_PORT', 80))
+    page.goto('http://localhost:' + port)
     yield page
 
 
