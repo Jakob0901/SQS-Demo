@@ -52,6 +52,10 @@ jobs:
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
           pip install .  
 
+      - name: Set file permissions
+        working-directory: ./QuotesService
+        run: chmod +x app.py
+
       - name: Run application
         working-directory: ./QuotesService
         env:
@@ -68,11 +72,3 @@ jobs:
       - name: Show application logs
         if: always()
         run: cat QuotesService/app.log
-
-      - name: Stop application
-        if: always()
-        run: |
-          if [ -f QuotesService/app.pid ]; then
-            kill $(cat QuotesService/app.pid)
-            rm QuotesService/app.pid
-          fi
