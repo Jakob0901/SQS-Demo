@@ -57,37 +57,28 @@ def test_save_and_load_quotes(page: Page):
     # Wait for connection to be established
     expect(page.get_by_role('button', name='Speichern')).to_be_enabled()
 
-    # Get current quote and make sure it's loaded
+    # Get a new quote and wait for it to load
+    with page.expect_response(lambda r: '/quote' in r.url):
+        page.get_by_role('button', name='Neues Zitat').click()
+
+    # Get current quote
     quote_element = page.locator('.card-text').first
     expect(quote_element).to_be_visible()
     current_quote = quote_element.text_content()
     print(f"Current quote: {current_quote}")
 
-    # Save quote and wait for request to complete
+    # Save quote and wait for save request
     with page.expect_response(lambda r: '/save' in r.url):
         page.get_by_role('button', name='Speichern').click()
 
-    # Wait for the stored quotes request to complete
-    with page.expect_response(lambda r: '/stored_quotes' in r.url):
-        page.wait_for_timeout(1000)  # Small buffer for UI update
+    page.wait_for_timeout(2000)
 
-    # Verify saved quotes list
-    saved_quotes_list = page.locator('.list-group')
-    expect(saved_quotes_list).to_be_visible()
+    # Wait and verify
+    saved_quotes = page.locator('.list-group-item').first
+    expect(saved_quotes).to_be_visible(timeout=2000)
+    saved_quote = saved_quotes.text_content()
 
-    saved_quote_items = page.locator('.list-group-item')
-    expect(saved_quote_items).to_be_visible()
-
-    # Print debug info if needed
-    if not saved_quote_items.count():
-        print("Debug: Page content")
-        print(page.content())
-        print(f"Debug: Looking for quote: {current_quote}")
-
-    # Verify the quote text - only first 15 characters for brevity
-    current_quote_short = current_quote[:15]
-    saved_quote = saved_quote_items.first.text_content()
-    expect(saved_quote[:15]).to_equal(current_quote_short)
+    assert saved_quote[:20] == current_quote[:20], f"Expected '{current_quote[:20]}', got '{saved_quote[:20]}'"
 
 def test_error_handling(page: Page):
     # Test with invalid API key
