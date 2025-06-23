@@ -47,12 +47,16 @@ The following quality goals are prioritized for the architecture, as they are mo
 | Administrator                 | https://github.com/Jakob0901/SQS-Demo | Robust admin tools; comprehensive user management; system monitoring; strong security measures.                   |
 
 
-# 2 Architecture Constraints 
+# 2 Architecture Constraints
 
-- The application must be containerized using Docker to ensure consistency across different environments and facilitate easy deployment.
-- The application must be store data in a SQL database to ensure data integrity and reliability.
-- The application must be built with a programming language supporting various testing frameworks like Python, Java, or C#.
-- The application must be designed with restful APIs to ensure easy integration with other services and applications.
+| Type           | Constraint                                                                                               | Explanation                                                                                            |
+|----------------|----------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------|
+| Technical      | The application must be containerized using Docker.                                                      | Ensures consistent environments and simplifies deployment across development, testing, and production. |
+| Technical      | The application must store data in a SQL database.                                                       | Guarantees data integrity, reliability, and supports transactional operations.                         |
+| Technical      | The application must expose RESTful APIs.                                                                | Facilitates easy integration with other services and applications.                                     |
+| Technical      | The application must be built with a language supporting robust testing frameworks (e.g., Python, Java). | Enables automated testing and ensures code quality and maintainability.                                |
+| Organizational | Must comply with company-wide security and data protection policies.                                     | Ensures legal compliance and protects user data.                                                       |
+| Convention     | Code must follow established style guides and documentation standards.                                   | Promotes readability, maintainability, and team collaboration.                                         |
 
 # 3 Context and Scope
 
@@ -63,12 +67,12 @@ The following quality goals are prioritized for the architecture, as they are mo
 ![Business Context Diagram](images/buisness_context_diagram.png)
 
 ### Communication Partners
-| Communication Partner | Inputs                                          | Outputs                              |
- |-----------------------|-------------------------------------------------|--------------------------------------|
- | Users                 | User requests, search queries, user preferences | quotes, search results, user notifications |
- | External API          | API requests, authentication tokens             | data, API responses                  |
- | Database              | Data queries, data updates                      | Query results, data confirmations    |
- | Build System          | Build requests, code changes                    | Build artifacts, deployment notifications |
+| Communication Partner | Inputs                                          | Outputs                                    |
+|-----------------------|-------------------------------------------------|--------------------------------------------|
+| Users                 | User requests, search queries, user preferences | quotes, search results, user notifications |
+| External API          | API requests, authentication tokens             | data, API responses                        |
+| Database              | Data queries, data updates                      | Query results, data confirmations          |
+| Build System          | Build requests, code changes                    | Build artifacts, deployment notifications  |
 
 
 ### Description
