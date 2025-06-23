@@ -1,18 +1,8 @@
-# Moviequotes
-
-**About arc42**
-
-arc42, the template for documentation of software and system
-architecture.
-
-Template Version 8.2 EN. (based upon AsciiDoc version), January 2023
-
-Created, maintained and © by Dr. Peter Hruschka, Dr. Gernot Starke and
-contributors. See <https://arc42.org>.
+# QuotesService API
 
 # 1 Introduction and Goals 
 
-The primary goal of the MovieQuotes API is to provide a simple and user-friendly interface for fetching and saving movie quotes. 
+The primary goal of the QuotesService API is to provide a simple and user-friendly interface for fetching and saving quotes. 
 The API is designed to be intuitive and easy to use and includes a Web application for easy access.
 
 ## Requirements Overview
@@ -20,7 +10,7 @@ The API is designed to be intuitive and easy to use and includes a Web applicati
 This section describes the relevant requirements and the driving forces that software architects and development team must consider. 
 These include:
 
-- Functional Requirements: The API must allow users to fetch random quotes, search for quotes by author or movie, and save new quotes.
+- Functional Requirements: The API must allow users to fetch random quotes, search for quotes by author, and save new quotes.
 - Functional Requirements: The API must allow users to fetch random quotes, and save new quotes.
 - Functional Requirements: The API must allow users to access a Web application that provides a user-friendly interface for interacting with the API.
 - Functional Requirements: The Web application must allow users to view and save quotes.
@@ -66,18 +56,18 @@ The architecture of the application must meet the following quality goals:
 ![Business Context Diagram](images/buisness_context_diagram.png)
 
 ### Communication Partners
-| Communication Partner | Inputs                                          | Outputs                                          |
- |-----------------------|-------------------------------------------------|--------------------------------------------------|
- | Users                 | User requests, search queries, user preferences | Movie quotes, search results, user notifications |
- | External API          | API requests, authentication tokens             | Movie data, API responses                        |
- | Database              | Data queries, data updates                      | Query results, data confirmations                |
- | Build System          | Build requests, code changes                    | Build artifacts, deployment notifications        |
+| Communication Partner | Inputs                                          | Outputs                              |
+ |-----------------------|-------------------------------------------------|--------------------------------------|
+ | Users                 | User requests, search queries, user preferences | quotes, search results, user notifications |
+ | External API          | API requests, authentication tokens             | data, API responses                  |
+ | Database              | Data queries, data updates                      | Query results, data confirmations    |
+ | Build System          | Build requests, code changes                    | Build artifacts, deployment notifications |
 
 
 ### Description
 
-- **Users**: Interact with the application to search for, discover, and share movie quotes. Users provide input through the user interface and receive outputs such as search results and notifications.
-- **External API**: Provides additional movie data and functionalities. The application sends API requests and receives responses containing movie data.
+- **Users**: Interact with the application to search for, discover, and share quotes. Users provide input through the user interface and receive outputs such as search results and notifications.
+- **External API**: Provides additional data and functionalities. The application sends API requests and receives responses containing quotes data.
 - **Database**: Stores and retrieves application data. The application sends data queries and updates, receiving query results and confirmations.
 
 ## Technical Context
@@ -130,12 +120,12 @@ The database provides a way to persistently store data.
 
 Contained Blackboxes
 
-| Blackbox | Description                                                                                                           |
-|----------|-----------------------------------------------------------------------------------------------------------------------|
-| app      | Handles HTTP requests and responses, providing a user-friendly interface for interacting with the API.                |
-| index    | Provides the main page for the Web application, allowing users to view and save quotes.                               |
-| wrapper  | Provides a consistent interface for interacting with external services, such as the third-party API for movie quotes. |
-| database | Handles the interaction with the SQL database, including saving and retrieving quotes.                                |
+| Blackbox | Description                                                                                                       |
+|----------|-------------------------------------------------------------------------------------------------------------------|
+| app      | Handles HTTP requests and responses, providing a user-friendly interface for interacting with the API.            |
+| index    | Provides the main page for the Web application, allowing users to view and save quotes.                           |
+| wrapper  | Provides a consistent interface for interacting with external services, such as the third-party API for quotes.   |
+| database | Handles the interaction with the SQL database, including saving and retrieving quotes.                            |
 
 ### Blackbox 
 
@@ -156,7 +146,7 @@ It provides a user-friendly interface for interacting with the API and includes 
 
 The wrapper python package contains all wrapper classes for the application.
 Thereby a wrapper is split into two parts:
-- Internal wrapper: This is the main wrapper class that provides a consistent interface for interacting with external services, such as the third-party API for movie quotes.
+- Internal wrapper: This is the main wrapper class that provides a consistent interface for interacting with external services, such as the third-party API for quotes.
 - External wrapper: This is the wrapper class that provides a consistent interface for interacting with the external API, allowing the application to fetch random quotes and save quotes.
 
 External wrapper are stored in the subpackages.
@@ -215,7 +205,7 @@ Therefore, you need to know the infrastructure.
 
 Description
 
-The movie quotes application is deployed across multiple environments to ensure development, testing, and production needs are met. 
+The QuotesService application is deployed across multiple environments to ensure development, testing, and production needs are met. 
 The infrastructure includes:
 
 **_Overview Diagram_**
@@ -348,7 +338,7 @@ Architecture decisions are recorded in the adr folder located at documentation/a
 
 | ID      | Description                                                                                                                                      |
 |---------|--------------------------------------------------------------------------------------------------------------------------------------------------|
-| 10.1.1  | Users can easily navigate the application and discover movie quotes without requiring extensive training or documentation.                       |
+| 10.1.1  | Users can easily navigate the application and discover quotes without requiring extensive training or documentation.                             |
 | 10.1.2  | The application provides clear and concise error messages that help users understand and resolve issues quickly.                                 |
 | 10.1.3  | The application's modular architecture allows for easy updates and maintenance, with well-documented code and clear separation of concerns.      |
 | 10.1.4  | Comprehensive test coverage ensures that changes to the codebase do not introduce new issues, facilitating safe and reliable updates.            |
@@ -357,13 +347,13 @@ Architecture decisions are recorded in the adr folder located at documentation/a
 
 ## Quality Scenarios 
 
-|ID|Context/Background|Sources/Stimulus| Metric/Acceptance Criteria                                                                                                                 |
-|-|-|-|--------------------------------------------------------------------------------------------------------------------------------------------|
-|10.2.1|Users navigating the application to discover movie quotes.|User interacts with the application interface.| Users can find and share movie quotes within 3 clicks or less, with a response time of under 2 seconds for each interaction.               |
-|10.2.2|Users encountering errors while using the application.|User performs an action that results in an error.| The application displays clear and concise error messages, guiding users to resolve the issue within 10 seconds.                           |
-|10.2.2|Users encountering errors while using the application.|User performs an action that results in an error.| The application displays clear and concise error messages, guiding users to resolve the issue within 10 seconds.                           |
-|10.2.3|Application handling high user loads during peak usage times.|Multiple users accessing the application simultaneously.| The application maintains a response time of under 2 seconds for 95% of user interactions, even with 1000 concurrent users.                |
-|10.2.4|Application performing data validation and error handling.|User submits data to the application.| The application validates data and handles errors gracefully, ensuring data integrity and providing feedback to the user within 1 second.  |
+| ID     | Context/Background                                            | Sources/Stimulus                                         | Metric/Acceptance Criteria                                                                                                                |
+|--------|---------------------------------------------------------------|----------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------|
+| 10.2.1 | Users navigating the application to discover quotes.          | User interacts with the application interface.           | Users can find and share quotes within 3 clicks or less, with a response time of under 2 seconds for each interaction.                    |
+| 10.2.2 | Users encountering errors while using the application.        | User performs an action that results in an error.        | The application displays clear and concise error messages, guiding users to resolve the issue within 10 seconds.                          |
+| 10.2.2 | Users encountering errors while using the application.        | User performs an action that results in an error.        | The application displays clear and concise error messages, guiding users to resolve the issue within 10 seconds.                          |
+| 10.2.3 | Application handling high user loads during peak usage times. | Multiple users accessing the application simultaneously. | The application maintains a response time of under 2 seconds for 95% of user interactions, even with 1000 concurrent users.               |
+| 10.2.4 | Application performing data validation and error handling.    | User submits data to the application.                    | The application validates data and handles errors gracefully, ensuring data integrity and providing feedback to the user within 1 second. |
 
 
 # 11 Risks and Technical Debts 
