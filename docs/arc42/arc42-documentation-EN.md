@@ -7,37 +7,44 @@ The API is designed to be intuitive and easy to use and includes a Web applicati
 
 ## Requirements Overview
 
-This section describes the relevant requirements and the driving forces that software architects and development team must consider. 
-These include:
 
-- Functional Requirements: The API must allow users to fetch random quotes, search for quotes by author, and save new quotes.
-- Functional Requirements: The API must allow users to fetch random quotes, and save new quotes.
-- Functional Requirements: The API must allow users to access a Web application that provides a user-friendly interface for interacting with the API.
-- Functional Requirements: The Web application must allow users to view and save quotes.
-- Non-Functional Requirements: The API must be able to handle a growing number of users and quotes without significant performance degradation.
-- Non-Functional Requirements: The application must be reliable and robust, with minimal downtime and errors.
-- Non-Functional Requirements: The application must be secure, with appropriate measures to protect against unauthorized access and data breaches.
-- Non-Functional Requirements: The application must be intuitive and easy to use, with a clean and user-friendly interface.
-- Non-Functional Requirements: The API must be performant, scalable, and secure. It should also provide a user-friendly interface for the Web application.
+The QuotesService API aims to provide a simple, intuitive interface for fetching and saving quotes, 
+accessible via both a RESTful API and a web application. 
+The main functional and non-functional requirements are:
+
+| Requirement Type | Description                                                                         |
+|------------------|-------------------------------------------------------------------------------------|
+| Functional       | Fetch random quotes and save favorite quotes.                                       |
+| Functional       | Provide a user-friendly web application for interacting with the API                |
+| Non-Functional   | Ensure reliability, robustness, and minimal downtime.                               |
+| Non-Functional   | Support scalability to handle increasing users and data volume.                     |
+| Non-Functional   | Implement strong security measures to protect data and prevent unauthorized access. |
+| Non-Functional   | Deliver an intuitive, easy-to-use interface for both API and web application.       |
+
+Motivation:
+The system is designed to improve user engagement with quotes, 
+streamline quote management, and ensure a high-quality, secure, and scalable experience for all users
 
 ## Quality Goals
 
-The architecture of the application must meet the following quality goals:
+The following quality goals are prioritized for the architecture, as they are most important to stakeholders:
 
-- Performance: The application should respond quickly to user interactions, ensuring a smooth and responsive experience.
-- Reliability: The application should be robust and reliable, with minimal downtime and errors.
-- Security: User data and interactions should be secure, with appropriate measures to protect against unauthorized access and data breaches.
-- Usability: The application should be intuitive and easy to use, with a clean and user-friendly interface.
-- Maintainability: The codebase should be well-structured and easy to maintain, with clear documentation and a modular design.
+| Priority  | Quality Goal    | Scenario                                                                          |
+|-----------|-----------------|-----------------------------------------------------------------------------------|
+| 1         | Performance     | The application responds to user actions within 2 seconds, even under high load.  |
+| 2         | Reliability     | The application responds to user actions within 2 seconds, even under high load.  |
+| 3         | Security        | User data is protected through authentication, authorization, and encryption.     |
+| 4         | Usability       | Users can access and use the application without training or prior experience.    |
+| 5         | Maintainability | The codebase is modular and well-documented, enabling easy updates and bug fixes. |
 
 ## Stakeholders
 
-| Role/Name | Contact                               | Expectations                                                                                                         |
-|-----------|---------------------------------------|----------------------------------------------------------------------------------------------------------------------|
-| Third-Party Service Providers | https://api.quotable.io/              | Clear integration guidelines, reliable performance, and timely support for API-related issues.                       |
-| Developer | https://github.com/Jakob0901          | Well-documented and modular architecture, easy development and maintenance, access to necessary tools and resources. |
-| End User | https://github.com/Jakob0901/SQS-Demo | Seamless and enjoyable user experience, intuitive interface, quick response times, and engaging features.            |
-| Administrator | https://github.com/Jakob0901/SQS-Demo | Robust administrative tools, comprehensive user management, system monitoring, and security measures.                |
+| Role/Name                     | Contact                               | Expectations                                                                                                      |
+|-------------------------------|---------------------------------------|-------------------------------------------------------------------------------------------------------------------|
+| Third-Party Service Providers | https://api.forismatic.com/api/1.0/   | Clear integration guidelines, reliable performance, and timely support for API-related issues.                    |
+| Developer                     | https://github.com/Jakob0901          | Modular, well-documented architecture; easy development and maintenance; access to necessary tools and resources. |
+| End User                      | https://github.com/Jakob0901/SQS-Demo | Seamless, intuitive user experience; quick response times; engaging features.                                     |
+| Administrator                 | https://github.com/Jakob0901/SQS-Demo | Robust admin tools; comprehensive user management; system monitoring; strong security measures.                   |
 
 
 # 2 Architecture Constraints 
