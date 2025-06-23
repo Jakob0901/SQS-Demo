@@ -4,4 +4,9 @@ if [ ! -f .env ]; then
   echo ".env created with random password."
 fi
 
-docker-compose --env-file .env up
+# Check if -d flag was passed
+if [[ "$*" == *"-d"* ]]; then
+  docker-compose --env-file .env up -d
+else
+  docker-compose --env-file .env up
+fi
