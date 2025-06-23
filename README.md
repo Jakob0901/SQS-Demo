@@ -42,6 +42,34 @@ DB_PASSWORD=kernschmelze
 DATABASE_URL=localhost:5432/app_db
 ```
 
+### Abhängigkeiten installieren
+
+```bash
+cd QuoteService
+pip install .
+```
+
+Dieser Befehl installiert die Abhängigkeiten aus der `setup.py`.
+
+### Datenbank initialisieren
+
+```bash
+cd QuoteService/tests
+dokcker-compose up
+```
+
+Dieser Befehl startet die Testdatenbank. 
+Dies wurde mit Docker Compose eingerichtet, wobei die docker-compose.yml die für Integrations und e2e Tests genutzt wird, im `tests`-Verzeichnis liegt.
+
+### Start application
+
+```bash
+cd QuoteService
+python3 app.py
+```
+
+This starts the Flask application on `http://localhost:80`.
+
 ## CI/CD
 
 - Automatisierte Tests via GitHub Actions

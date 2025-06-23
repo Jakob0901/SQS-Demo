@@ -40,7 +40,7 @@ def test_random_quote_functionality(page: Page):
 
 def test_api_key_connection(page: Page):
     # Enter API key
-    page.get_by_placeholder('API-Schlüssel eingeben').fill('test_api_key')
+    page.get_by_placeholder('API-Schlüssel eingeben').fill('kernschmelze')
     expect(page.get_by_role('button', name='Verbinden')).to_be_enabled()
 
     # Connect
@@ -52,7 +52,7 @@ def test_api_key_connection(page: Page):
 
 def test_save_and_load_quotes(page: Page):
     # Connect with API key first
-    page.get_by_placeholder('API-Schlüssel eingeben').fill('test_api_key')
+    page.get_by_placeholder('API-Schlüssel eingeben').fill('kernschmelze')
     page.get_by_role('button', name='Verbinden').click()
     expect(page.get_by_role('button', name='Speichern')).to_be_enabled()
 
