@@ -50,6 +50,10 @@
             </ul>
         </div>
     </div>
+
+    <div v-if="errorMessage" class="alert alert-danger mt-4">
+        {{ errorMessage }}
+    </div>
 </div>
 
 <script>
@@ -59,7 +63,8 @@
             currentQuote: { quote: '', source: '' },
             savedQuotes: [],
             apiKey: '',
-            isConnected: false
+            isConnected: false,
+            errorMessage: ''
         },
         methods: {
             saveApiKey() {
@@ -67,14 +72,19 @@
             },
             connect() {
                 this.isConnected = true;
+                this.errorMessage = '';
                 this.loadSavedQuotes();
             },
             getRandomQuote() {
                 axios.get('/quote')
                     .then(response => {
                         this.currentQuote = response.data;
+                        this.errorMessage = '';
                     })
-                    .catch(error => console.error('Error:', error));
+                    .catch(error => {
+                        this.errorMessage = 'Fehler beim Abrufen des Zitats.';
+                        console.error('Error:', error);
+                    });
             },
             saveQuote() {
                 if (!this.isConnected) return;
@@ -90,10 +100,13 @@
                     headers: headers
                 })
                 .then(response => {
-                    console.log('Success:', response);
+                    this.errorMessage = '';
                     this.loadSavedQuotes();
                 })
-                .catch(error => console.error('Error:', error));
+                .catch(error => {
+                    this.errorMessage = 'Fehler beim Speichern des Zitats.';
+                    console.error('Error:', error);
+                });
             },
             loadSavedQuotes() {
                 axios.get('/stored_quotes', {
@@ -101,10 +114,12 @@
                 })
                     .then(response => {
                         this.savedQuotes = response.data;
+                        this.errorMessage = '';
                     })
                     .catch(error => {
-                        console.error('Error:', error);
+                        this.errorMessage = 'Fehler beim Laden der gespeicherten Zitate oder ungültiger API-Schlüssel.';
                         this.isConnected = false;
+                        console.error('Error:', error);
                     });
             }
         },
