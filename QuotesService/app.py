@@ -112,6 +112,7 @@ class FlaskApp:
         port = int(os.environ.get('QUOTES_SERVICE_PORT', 80))
         self.app.run(host='127.0.0.1', port=port)
 
+
 if __name__ == '__main__':
     flask_app = FlaskApp()
     flask_app.run()
