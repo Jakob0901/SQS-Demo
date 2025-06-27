@@ -1,0 +1,37 @@
+@startuml
+
+' Define the components
+actor User
+component "Quote Service" as Service
+component "External API" as API
+database "Database" as DB
+component "Build System" as Build
+
+' Define the interactions
+User <-> Service: manages quotes
+
+Service -> API: request new quotes
+
+Service -> DB: stores favorites
+
+Build -> Service: Installs dependencies
+
+' Styling
+skinparam component {
+    BackgroundColor #FFFFF0
+    BorderColor #AAAAAA
+    FontSize 13
+    ArrowFontSize 10
+}
+
+skinparam database {
+    BackgroundColor #F0FFF0
+    BorderColor #AAAAAA
+}
+
+skinparam actor {
+    BackgroundColor #FFF0F0
+    BorderColor #AAAAAA
+}
+
+@enduml
