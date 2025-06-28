@@ -6,7 +6,7 @@ nav:
   - Architecture:
       - ARC 42: arc42/arc42-documentation-EN.md
   - ADRs:
-      - ADR List: arc42/adr-list.md
+      - ADR List: arc42/adr_list.md
       - ADR Authentication: adr/adr-authentication.md
       - ADR Framwork: adr/adr-basic-technology.md
       - ADR API Data: adr/adr-data-source.md
