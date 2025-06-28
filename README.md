@@ -77,7 +77,7 @@ This starts the Flask application on `http://localhost:80`.
 
 ## Lizenz
 
-Dieses Projekt steht unter der [MIT Lizenz](LICENSE).
+Dieses Projekt steht unter der MIT-Lizenz.
 
 ## Weitere Informationen
 
