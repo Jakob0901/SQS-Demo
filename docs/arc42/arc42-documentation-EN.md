@@ -124,11 +124,11 @@ The following quality goals are prioritized for the architecture, as they are mo
 ![Overall System Architecture](images/architecture_overall_whitebox-Overall_System_Architecture.png)
 
 Rational:
-The overall system architecture is designed to provide a clear separation of concerns, with distinct layers for the Web application, API, and database.
-The application is designed to connect the different components of the system.
-The Web application provides a way for user interaction.
-The external API provides a way to fetch random quotes.
-The database provides a way to persistently store data.
+1. Clear separation of concerns between Web application, API, and database layers
+2. Components are interconnected to support system functionality 
+3. Web application enables user interaction and interface
+4. External API integration provides random quote functionality
+5. Database ensures persistent data storage and retrieval
 
 ## Level 2 
 
