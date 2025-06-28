@@ -1,0 +1,29 @@
+@startuml runtime-save-quote
+participant "Client" as client
+participant "API" as api
+participant "Auth" as auth
+participant "Wrapper" as wrapper
+participant "Database" as db
+
+client -> api: Try save_quote()
+activate api
+
+api -> auth: require_api_key()
+activate auth
+auth --> api: validation result
+deactivate auth
+
+api -> wrapper: store_quote()
+activate wrapper
+
+wrapper -> db: SQL-Request
+activate db
+db --> wrapper: confirmation
+deactivate db
+
+wrapper --> api: result
+deactivate wrapper
+
+api --> client: save response
+deactivate api
+@enduml

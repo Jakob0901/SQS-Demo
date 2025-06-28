@@ -1,61 +1,62 @@
-# Moviequotes
-
-**About arc42**
-
-arc42, the template for documentation of software and system
-architecture.
-
-Template Version 8.2 EN. (based upon AsciiDoc version), January 2023
-
-Created, maintained and © by Dr. Peter Hruschka, Dr. Gernot Starke and
-contributors. See <https://arc42.org>.
+# QuotesService API
 
 # 1 Introduction and Goals 
 
-The primary goal of the MovieQuotes API is to provide a simple and user-friendly interface for fetching and saving movie quotes. 
+The primary goal of the QuotesService API is to provide a simple and user-friendly interface for fetching and saving quotes. 
 The API is designed to be intuitive and easy to use and includes a Web application for easy access.
 
 ## Requirements Overview
 
-This section describes the relevant requirements and the driving forces that software architects and development team must consider. 
-These include:
 
-- Functional Requirements: The API must allow users to fetch random quotes, search for quotes by author or movie, and save new quotes.
-- Functional Requirements: The API must allow users to fetch random quotes, and save new quotes.
-- Functional Requirements: The API must allow users to access a Web application that provides a user-friendly interface for interacting with the API.
-- Functional Requirements: The Web application must allow users to view and save quotes.
-- Non-Functional Requirements: The API must be able to handle a growing number of users and quotes without significant performance degradation.
-- Non-Functional Requirements: The application must be reliable and robust, with minimal downtime and errors.
-- Non-Functional Requirements: The application must be secure, with appropriate measures to protect against unauthorized access and data breaches.
-- Non-Functional Requirements: The application must be intuitive and easy to use, with a clean and user-friendly interface.
-- Non-Functional Requirements: The API must be performant, scalable, and secure. It should also provide a user-friendly interface for the Web application.
+The QuotesService API aims to provide a simple, intuitive interface for fetching and saving quotes, 
+accessible via both a RESTful API and a web application. 
+The main functional and non-functional requirements are:
+
+| Requirement Type | Description                                                                         |
+|------------------|-------------------------------------------------------------------------------------|
+| Functional       | Fetch random quotes and save favorite quotes.                                       |
+| Functional       | Provide a user-friendly web application for interacting with the API                |
+| Non-Functional   | Ensure reliability, robustness, and minimal downtime.                               |
+| Non-Functional   | Support scalability to handle increasing users and data volume.                     |
+| Non-Functional   | Implement strong security measures to protect data and prevent unauthorized access. |
+| Non-Functional   | Deliver an intuitive, easy-to-use interface for both API and web application.       |
+
+Motivation:
+The system is designed to improve user engagement with quotes, 
+streamline quote management, and ensure a high-quality, secure, and scalable experience for all users
 
 ## Quality Goals
 
-The architecture of the application must meet the following quality goals:
+The following quality goals are prioritized for the architecture, as they are most important to stakeholders:
 
-- Performance: The application should respond quickly to user interactions, ensuring a smooth and responsive experience.
-- Reliability: The application should be robust and reliable, with minimal downtime and errors.
-- Security: User data and interactions should be secure, with appropriate measures to protect against unauthorized access and data breaches.
-- Usability: The application should be intuitive and easy to use, with a clean and user-friendly interface.
-- Maintainability: The codebase should be well-structured and easy to maintain, with clear documentation and a modular design.
+| Priority  | Quality Goal    | Scenario                                                                          |
+|-----------|-----------------|-----------------------------------------------------------------------------------|
+| 1         | Performance     | The application responds to user actions within 2 seconds, even under high load.  |
+| 2         | Reliability     | The application responds to user actions within 2 seconds, even under high load.  |
+| 3         | Security        | User data is protected through authentication, authorization, and encryption.     |
+| 4         | Usability       | Users can access and use the application without training or prior experience.    |
+| 5         | Maintainability | The codebase is modular and well-documented, enabling easy updates and bug fixes. |
 
 ## Stakeholders
 
-| Role/Name | Contact                               | Expectations                                                                                                         |
-|-----------|---------------------------------------|----------------------------------------------------------------------------------------------------------------------|
-| Third-Party Service Providers | https://api.quotable.io/              | Clear integration guidelines, reliable performance, and timely support for API-related issues.                       |
-| Developer | https://github.com/Jakob0901          | Well-documented and modular architecture, easy development and maintenance, access to necessary tools and resources. |
-| End User | https://github.com/Jakob0901/SQS-Demo | Seamless and enjoyable user experience, intuitive interface, quick response times, and engaging features.            |
-| Administrator | https://github.com/Jakob0901/SQS-Demo | Robust administrative tools, comprehensive user management, system monitoring, and security measures.                |
+| Role/Name                     | Contact                               | Expectations                                                                                                      |
+|-------------------------------|---------------------------------------|-------------------------------------------------------------------------------------------------------------------|
+| Third-Party Service Providers | https://api.forismatic.com/api/1.0/   | Clear integration guidelines, reliable performance, and timely support for API-related issues.                    |
+| Developer                     | https://github.com/Jakob0901          | Modular, well-documented architecture; easy development and maintenance; access to necessary tools and resources. |
+| End User                      | https://github.com/Jakob0901/SQS-Demo | Seamless, intuitive user experience; quick response times; engaging features.                                     |
+| Administrator                 | https://github.com/Jakob0901/SQS-Demo | Robust admin tools; comprehensive user management; system monitoring; strong security measures.                   |
 
 
-# 2 Architecture Constraints 
+# 2 Architecture Constraints
 
-- The application must be containerized using Docker to ensure consistency across different environments and facilitate easy deployment.
-- The application must be store data in a SQL database to ensure data integrity and reliability.
-- The application must be built with a programming language supporting various testing frameworks like Python, Java, or C#.
-- The application must be designed with restful APIs to ensure easy integration with other services and applications.
+| Type           | Constraint                                                                                               | Explanation                                                                                            |
+|----------------|----------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------|
+| Technical      | The application must be containerized using Docker.                                                      | Ensures consistent environments and simplifies deployment across development, testing, and production. |
+| Technical      | The application must store data in a SQL database.                                                       | Guarantees data integrity, reliability, and supports transactional operations.                         |
+| Technical      | The application must expose RESTful APIs.                                                                | Facilitates easy integration with other services and applications.                                     |
+| Technical      | The application must be built with a language supporting robust testing frameworks (e.g., Python, Java). | Enables automated testing and ensures code quality and maintainability.                                |
+| Organizational | Must comply with company-wide security and data protection policies.                                     | Ensures legal compliance and protects user data.                                                       |
+| Convention     | Code must follow established style guides and documentation standards.                                   | Promotes readability, maintainability, and team collaboration.                                         |
 
 # 3 Context and Scope
 
@@ -66,19 +67,24 @@ The architecture of the application must meet the following quality goals:
 ![Business Context Diagram](images/buisness_context_diagram.png)
 
 ### Communication Partners
-| Communication Partner | Inputs                                          | Outputs                                          |
- |-----------------------|-------------------------------------------------|--------------------------------------------------|
- | Users                 | User requests, search queries, user preferences | Movie quotes, search results, user notifications |
- | External API          | API requests, authentication tokens             | Movie data, API responses                        |
- | Database              | Data queries, data updates                      | Query results, data confirmations                |
- | Build System          | Build requests, code changes                    | Build artifacts, deployment notifications        |
 
+| Communication Partner | Inputs                                          | Outputs                                    |
+|-----------------------|-------------------------------------------------|--------------------------------------------|
+| Users/Web UI          | User requests, search queries, user preferences | quotes, search results, user notifications |
+| External API          | API requests, authentication tokens             | data, API responses                        |
+| Database              | Data queries, data updates                      | Query results, data confirmations          |
+| Quote Service         | Build requests, code changes                    | Build artifacts, deployment notifications  |
+| Build System          | Build requests, code changes                    | Build artifacts, deployment notifications  |
 
 ### Description
 
-- **Users**: Interact with the application to search for, discover, and share movie quotes. Users provide input through the user interface and receive outputs such as search results and notifications.
-- **External API**: Provides additional movie data and functionalities. The application sends API requests and receives responses containing movie data.
+### Description
+
+- **Users/Web UI**: Interact with the application to search for, discover, and share quotes. Users provide input through the user interface and receive outputs such as search results and notifications.
+- **External API**: Provides additional data and functionalities. The application sends API requests with authentication tokens and receives responses containing quotes data.
 - **Database**: Stores and retrieves application data. The application sends data queries and updates, receiving query results and confirmations.
+- **Quote Service**: Handles application logic and processing. Receives build requests and code changes, producing build artifacts and deployment notifications.
+- **Build System**: Manages the build and deployment pipeline. Processes build requests and code changes, generating build artifacts and deployment notifications.
 
 ## Technical Context
 
@@ -86,18 +92,18 @@ The architecture of the application must meet the following quality goals:
 
 ### Communication Partners
 | Domain-Specific I/O | Channel/Protocol | Transmission Media | Description                                                                |
- |---------------------|------------------|--------------------|----------------------------------------------------------------------------|
- | User Requests       | HTTP/HTTPS       | Web browsers       | Users interact with the application through web browsers using HTTP/HTTPS. |
- | API Requests        | RESTful API      | API servers        | The application sends API requests to external APIs using RESTful API.     |
- | Data Queries        | SQL              | Database servers   | The application sends data queries to the database using SQL.              |
- | Build Requests      | CI/CD Pipeline   | Build servers      | The application sends build requests to the CI/CD pipeline for deployment. |
+|---------------------|------------------|--------------------|----------------------------------------------------------------------------|
+| Web UI              | HTTP/HTTPS       | Web browsers       | Users interact with the application through web browsers using HTTP/HTTPS. |
+| API                 | RESTful API      | API servers        | The application sends API requests to external APIs using RESTful API.     |
+| Database            | SQL              | Database servers   | The application sends data queries to the database using SQL.              |
+| External API        | RESTful API      | Cloud services     | The application communicates with external APIs using RESTful API.         |
 
 ### Description
 
-- **Users**: Interact with the application through web browsers and mobile devices using HTTP/HTTPS and WebSocket protocols.
-- **External API**: Communicates with the application using RESTful API and HTTPS protocols. The API is hosted on API servers and cloud services.
-- **Database**: Stores and retrieves application data using SQL and JDBC protocols. The database is hosted on database servers and cloud databases.
-- **Build System**: The application is built and deployed using a CI/CD pipeline, which communicates with build servers and cloud services using various protocols.
+- **Web UI**: Interact with the application through web browsers using HTTP/HTTPS protocols.
+- **API**: The application sends API requests to external APIs using RESTful API through API servers.
+- **Database**: Sends data queries to the database using SQL through database servers.
+- **External API**: Communicates with external APIs using RESTful API through cloud services.
 
 # 4 Solution Strategy
 
@@ -115,63 +121,76 @@ The architecture of the application must meet the following quality goals:
 
 ## Whitebox Overall System 
 
-![Overall System Architecture](images/architecture-overall-whitebox.png)
+![Overall System Architecture](images/architecture_overall_whitebox-Overall_System_Architecture.png)
 
 Rational:
-The overall system architecture is designed to provide a clear separation of concerns, with distinct layers for the Web application, API, and database.
-The application is designed to connect the different components of the system.
-The Web application provides a way for user interaction.
-The external API provides a way to fetch random quotes.
-The database provides a way to persistently store data.
+1. Clear separation of concerns between Web application, API, and database layers
+2. Components are interconnected to support system functionality 
+3. Web application enables user interaction and interface
+4. External API integration provides random quote functionality
+5. Database ensures persistent data storage and retrieval
 
 ## Level 2 
 
-![Overall System Architecture](images/architecture-l2.png)
+![Overall System Architecture](images/architecture_l2_api-API_Component___Level_2_View.png)
 
-Contained Blackboxes
+Contained Blackboxes:
 
-| Blackbox | Description                                                                                                           |
-|----------|-----------------------------------------------------------------------------------------------------------------------|
-| app      | Handles HTTP requests and responses, providing a user-friendly interface for interacting with the API.                |
-| index    | Provides the main page for the Web application, allowing users to view and save quotes.                               |
-| wrapper  | Provides a consistent interface for interacting with external services, such as the third-party API for movie quotes. |
-| database | Handles the interaction with the SQL database, including saving and retrieving quotes.                                |
+| Blackbox | Description                                                                                                                                                                                                                         |
+|----------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| app      | Core Flask application component that handles routing, HTTP request/response cycles, error handling, and API key validation. Acts as the main entry point for all incoming requests.                                                |
+| index    | Frontend controller component that manages the web interface rendering, user interactions, and template handling. Responsible for displaying quotes and handling user actions like saving favorites.                                |
+| wrapper  | Service abstraction layer that encapsulates third-party API interactions. Implements retry logic, error handling, and provides a clean interface for quote operations. Contains both internal and external wrapper implementations. |
+| database | Data access layer using SQLAlchemy ORM for PostgreSQL interactions. Handles database connections, query execution, transaction management, and data model mappings.                                                                 |
 
-### Blackbox 
+### Blackbox
 
 #### app
-
-The app is the main entry point for the application, handling HTTP requests and responses.
-It uses Flask to create a web application that provides a user-friendly interface for interacting with the API.
-It includes routes for fetching random quotes, saving quotes, and retrieving stored quotes.
-The functionality of the app is divided into several routes, each responsible for a specific action.
-The app also includes error handling and logging to ensure a smooth user experience.
+Flask-based core application component that:
+- Serves as the main HTTP request/response handler
+- Manages API endpoints and routing logic
+- Implements authentication via API key validation
+- Provides error handling and request logging
+- Handles session management and request lifecycle
+- Contains routes for quote operations (fetch, save, retrieve)
+- Integrates with wrapper and database components
 
 #### index
-
-Contains the main page for the Web application, allowing users to view and save quotes.
-It provides a user-friendly interface for interacting with the API and includes features such as, viewing random quotes, and saving and retrieving favorite quotes.
+Frontend controller component responsible for:
+- Rendering the main web interface using Vue.js
+- Managing user interactions and form submissions
+- Handling quote display and management operations
+- Implementing client-side validations
+- Managing user session state
 
 #### wrapper
-
-The wrapper python package contains all wrapper classes for the application.
-Thereby a wrapper is split into two parts:
-- Internal wrapper: This is the main wrapper class that provides a consistent interface for interacting with external services, such as the third-party API for movie quotes.
-- External wrapper: This is the wrapper class that provides a consistent interface for interacting with the external API, allowing the application to fetch random quotes and save quotes.
-
-External wrapper are stored in the subpackages.
-Those can contain multiplw wrapper classes implementing different external APIs to solve the same issue.
+Service abstraction layer divided into two main components:
+- Internal wrapper:
+  - Provides unified interface for service interactions
+  - Handles retry logic and error recovery
+  - Implements circuit breaker patterns
+  - Manages service timeouts and fallbacks
+- External wrapper:
+  - Encapsulates third-party API communications
+  - Implements specific API integration logic
+  - Handles rate limiting and quota management
+  - Provides data transformation and validation
 
 #### database
-
-The database python package contains all database-related classes and functions for the application.
-The main class is Storage that contains the implementation of the connection with the postgresql database.
-
+SQLAlchemy-based data access layer that:
+- Manages PostgreSQL database connections
+- Implements ORM models and relationships
+- Handles transaction management
+- Provides CRUD operations for quotes
+- Implements connection pooling
+- Manages database migrations
+- Ensures data integrity and consistency
+- 
 # 6 Runtime View {#section-runtime-view}
 
 ## Request Quote
 
-![Runtime View - Request Quote](images/runtime-request-quote.png)
+![Runtime View - Request Quote](images/runtime_request_quote.png)
 
 1. Try get_quote: access on the api to retrieve a random quote.
 2. Request get_random_quote: Call the wrapper class to get a random quote from the third-party API.
@@ -180,81 +199,61 @@ The main class is Storage that contains the implementation of the connection wit
 
 ## Save Quote
 
-![Runtime View - Save Quote](images/runtime-save-quote.png)
+![Runtime View - Save Quote](images/runtime_save_quote.png)
 
-1. Try save_quote: access on the api to save a quote.
-2. require_api_key: Check if the API key is valid.
-3. store_quote: Call the wrapper class to save the quote in the database.
-4. SQL-Request: Use SQLAlchemy to interact with the database and save the quote.
+1. Try save_quote: Client sends a request to the API to save a quote
+2. require_api_key: API validates the provided API key through Auth service
+3. store_quote: Upon successful authentication, API calls the wrapper class to save the quote
+4. SQL-Request: Wrapper executes database operation through SQLAlchemy
+5. Response flow: Database confirms operation, result passes back through wrapper and API to client
 
 ## Retrieve saved Quotes
 
-# 7 Deployment View 
-
-![Deployment View Overview](images/deployment-view-overview.png)
-
-1. Try get_stored_quotes: access on the api to retrieve stored quotes.
-2. require_api_key: Check if the API key is valid.
-3. get_stored_quotes: Call the wrapper class to retrieve stored quotes from the database.
-4. SQL-Request: Use SQLAlchemy to interact with the database and retrieve stored quotes.
-
-**Content**
-
-The deployment view describes:
-
-- The technical infrastructure used to execute your system, including environments, servers, processors, channels, network topologies, and other infrastructure elements.
-- The mapping of (software) building blocks to these infrastructure elements.
-
-**Motivation**
-
-Software does not run without hardware. 
-This underlying infrastructure can and will influence your system and/or some cross-cutting concepts. 
-Therefore, you need to know the infrastructure.
+# 7 Deployment View
 
 ## Infrastructure Level 1 
 
-Description
+### Infrastructure Overview
 
-The movie quotes application is deployed across multiple environments to ensure development, testing, and production needs are met. 
-The infrastructure includes:
+The QuotesService consists of two containerized services deployed in a simple, efficient architecture:
 
-**_Overview Diagram_**
+1. API Service (Flask application)
+2. PostgreSQL Database
 
-![Level 1 Overview](images/architecture-l1.png)
+![Level 1 Overview](images/architecture_l1-Infrastructure_Level_1_View.png)
 
-Motivation
+### Key Components
 
-:   The deployment structure is designed to ensure high availability, low latency, and efficient resource utilization. 
-The application is deployed in a cloud environment, ensuring scalability and flexibility.
-The application is containerized using Docker, allowing for easy deployment and management of services.
-By utilizing a microservices architecture, the application can be easily maintained.
+| Component          | Description                                                                  |
+|--------------------|------------------------------------------------------------------------------|
+| API Container      | Runs the Flask application that handles all HTTP requests and business logic |
+| Database Container | PostgreSQL instance that stores quote data and user preferences              |
+| Docker Network     | Connects the two containers, enabling secure communication                   |
 
-Quality and/or Performance Features
+### Quality Characteristics
 
-:   **High Availability**:The application is designed to be highly available by utilizing a microservices architecture, that can be quickly booted, modified and scaled as needed.<br>
-**Scalability**: The cloud-based infrastructure allows for easy scaling of resources to handle increased load and user base.<br>
-**Security**: The application is designed with security in mind, utilizing encryption and secure authentication methods to protect user data and interactions.
+- **Simplicity**
+  - Minimal infrastructure footprint
+  - Easy to deploy and maintain
+  - Clear service boundaries
 
-Mapping of Building Blocks to Infrastructure
+- **Reliability**
+  - Containerized services for consistent environments
+  - Database persistence for data durability
+  - Isolated service components
 
-:  **Production Enviroment:** The production environment is where the application is deployed and accessed by end-users.
-**Cloud VMs**: The application is deployed on cloud-based virtual machines (VMs) to ensure scalability and flexibility.
-**Cloud Infrastructure**: The application is hosted on a cloud infrastructure, allowing for easy scaling and management of resources.
+- **Security**
+  - Contained network communication
+  - API key authentication
+  - Encrypted data transmission
 
-## Infrastructure Level 2 {#_infrastructure_level_2}
+### Infrastructure Mapping
 
-### Application 
-
-**Overview Diagram**
-
-![Level 2 Overview](images/architecture-l2.png)
-
-**Explanation**
-:   **Restful APIs**: The application is designed with RESTful APIs to facilitate seamless integration with other services and applications. 
-It also provides a user-friendly interface for the Web application.<br>
-**Database**: The application uses a SQL database (PostgreSQL) to ensure data integrity and reliability.'
-**API**: The application relies on third-party services for social sharing and other functionalities.
-**Web Application**: The application provides a user-friendly interface for interacting with the API, allowing users to view and save quotes.
+| Building Block | Infrastructure Component |
+|----------------|-------------------------|
+| API Service | Docker container running Flask application |
+| Database | Docker container running PostgreSQL |
+| Network | Docker internal network |
 
 # 8 Cross-cutting Concepts {#section-concepts}
 
@@ -299,7 +298,10 @@ This is used for the connection with the the third-party API.
 ```python
 from tenacity import retry
 
-@retry
+@retry(
+    stop=stop_after_attempt(3),
+    retry=retry_if_exception_type(QuoteApiError)
+)
 def get_random_quote(self):
     # do request
     pass
@@ -338,9 +340,39 @@ The implementation of logging in the application is done using the built-in logg
 
 The implementation of logging in the application ensures that important events and errors are recorded, allowing developers and administrators to monitor the application's behavior and troubleshoot issues effectively.
 
+## Error Handling
+
+**Purpose**
+The purpose of error handling in the application is to gracefully manage unexpected situations and provide meaningful feedback to users and developers.
+It is designed to always return a valid response, even in the event of an error, ensuring that the application remains stable and user-friendly.
+The application returns status codes and error messages in a consistent format, allowing users to understand the nature of the error and take appropriate action.
+
+**Implementation**
+
+```python
+from flask import jsonify
+import logging
+
+logger = logging.getLogger(__name__)
+
+def get_quote(self):
+    logger.debug("Zufälliges Zitat wird angefordert")
+    try:
+            # do sth
+            return jsonify("result": "successful response"), 200
+        except QuoteServiceError as e:
+            logger.error("Fehler", exc_info=True)
+            return jsonify({"error": "Interner Serverfehler"}), 500
+```
+
+***Impact***
+
+The implementation of error handling in the application ensures that unexpected situations are managed gracefully and provides predictable behavior, providing meaningful feedback to users and developers.
+
 # 9 Architecture Decisions {#section-design-decisions}
 
-Architecture decisions are recorded in the adr folder located at documentation/adr.
+Architecture decisions are recorded in the adr folder located at docs/adr.
+A list of all architecture decisions can be found in the [Architecture Decision Records (ADRs)](../adr_list.md) document.
 
 # 10 Quality Requirements {#section-quality-scenarios}
 
@@ -348,7 +380,7 @@ Architecture decisions are recorded in the adr folder located at documentation/a
 
 | ID      | Description                                                                                                                                      |
 |---------|--------------------------------------------------------------------------------------------------------------------------------------------------|
-| 10.1.1  | Users can easily navigate the application and discover movie quotes without requiring extensive training or documentation.                       |
+| 10.1.1  | Users can easily navigate the application and discover quotes without requiring extensive training or documentation.                             |
 | 10.1.2  | The application provides clear and concise error messages that help users understand and resolve issues quickly.                                 |
 | 10.1.3  | The application's modular architecture allows for easy updates and maintenance, with well-documented code and clear separation of concerns.      |
 | 10.1.4  | Comprehensive test coverage ensures that changes to the codebase do not introduce new issues, facilitating safe and reliable updates.            |
@@ -357,33 +389,37 @@ Architecture decisions are recorded in the adr folder located at documentation/a
 
 ## Quality Scenarios 
 
-|ID|Context/Background|Sources/Stimulus| Metric/Acceptance Criteria                                                                                                                 |
-|-|-|-|--------------------------------------------------------------------------------------------------------------------------------------------|
-|10.2.1|Users navigating the application to discover movie quotes.|User interacts with the application interface.| Users can find and share movie quotes within 3 clicks or less, with a response time of under 2 seconds for each interaction.               |
-|10.2.2|Users encountering errors while using the application.|User performs an action that results in an error.| The application displays clear and concise error messages, guiding users to resolve the issue within 10 seconds.                           |
-|10.2.2|Users encountering errors while using the application.|User performs an action that results in an error.| The application displays clear and concise error messages, guiding users to resolve the issue within 10 seconds.                           |
-|10.2.3|Application handling high user loads during peak usage times.|Multiple users accessing the application simultaneously.| The application maintains a response time of under 2 seconds for 95% of user interactions, even with 1000 concurrent users.                |
-|10.2.4|Application performing data validation and error handling.|User submits data to the application.| The application validates data and handles errors gracefully, ensuring data integrity and providing feedback to the user within 1 second.  |
+| ID     | Context/Background                                            | Sources/Stimulus                                         | Metric/Acceptance Criteria                                                                                                                |
+|--------|---------------------------------------------------------------|----------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------|
+| 10.2.1 | Users navigating the application to discover quotes.          | User interacts with the application interface.           | Users can find and share quotes within 3 clicks or less, with a response time of under 2 seconds for each interaction.                    |
+| 10.2.2 | Users encountering errors while using the application.        | User performs an action that results in an error.        | The application displays clear and concise error messages, guiding users to resolve the issue within 10 seconds.                          |
+| 10.2.2 | Users encountering errors while using the application.        | User performs an action that results in an error.        | The application displays clear and concise error messages, guiding users to resolve the issue within 10 seconds.                          |
+| 10.2.3 | Application handling high user loads during peak usage times. | Multiple users accessing the application simultaneously. | The application maintains a response time of under 2 seconds for 95% of user interactions, even with 1000 concurrent users.               |
+| 10.2.4 | Application performing data validation and error handling.    | User submits data to the application.                    | The application validates data and handles errors gracefully, ensuring data integrity and providing feedback to the user within 1 second. |
 
 
 # 11 Risks and Technical Debts 
 
-|Risk | Description                                                                                                                                                                                               |
-|-|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|Integration with Third-Party Services| The application relies on third-party services for social sharing and other functionalities. Any changes or disruptions in these services could impact the application's performance and user experience. |
-|Data Security and Privacy| Ensuring the security and privacy of user data is critical. Any breaches or non-compliance with data protection regulations could result in legal issues and loss of user trust.                          |
-|Scalability and Performance| As the user base grows, the application must handle increased load without performance degradation. Inadequate scalability measures could lead to slow response times and poor user experience.           |
-|Dependency on External APIs| The application depends on external APIs for various functionalities. Any changes or downtime in these APIs could affect the application's performance and reliability.                                   |
-|Compatibility with Multiple Platforms| Ensuring the application is compatible with multiple platforms and devices is challenging. Inadequate testing and optimization could result in a poor user experience on certain platforms.               |
-|Compliance with Legal and Regulatory Requirements| The application must comply with various legal and regulatory requirements. Non-compliance could result in legal issues, fines, and damage to the application's reputation.                               |
-|Maintenance and Support| Providing ongoing maintenance and support is essential for the application's success. Inadequate resources or planning could lead to unresolved issues and reduced user satisfaction.                     |
+| Risk                                              | Description                                                                                                                                                                                     |
+|---------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Data Security and Privacy                         | Ensuring the security and privacy of user data is critical. Any breaches or non-compliance with data protection regulations could result in legal issues and loss of user trust.                |
+| Scalability and Performance                       | As the user base grows, the application must handle increased load without performance degradation. Inadequate scalability measures could lead to slow response times and poor user experience. |
+| Dependency on External APIs                       | The application depends on an external API for various functionalities. Any changes or downtime in these APIs could affect the application's performance and reliability.                       |
+| Compatibility with Multiple Platforms             | Ensuring the application is compatible with multiple platforms and devices is challenging. Inadequate testing and optimization could result in a poor user experience on certain platforms.     |
+| Compliance with Legal and Regulatory Requirements | The application must comply with various legal and regulato ry requirements. Non-compliance could result in legal issues, fines, and damage to the application's reputation.                    |
+| Maintenance and Support                           | Providing ongoing maintenance and support is essential for the application's success. Inadequate resources or planning could lead to unresolved issues and reduced user satisfaction.           |
 
-# 12 Glossary {#section-glossary}
+# 12 Glossary
 
-+-----------------------+-----------------------------------------------+
-| Term                  | Definition                                    |
-+=======================+===============================================+
-| *\<Term-1>*           | *\<definition-1>*                             |
-+-----------------------+-----------------------------------------------+
-| *\<Term-2>*           | *\<definition-2>*                             |
-+-----------------------+-----------------------------------------------+
+| Term         | Definition                                                                                       |
+|--------------|--------------------------------------------------------------------------------------------------|
+| API Key      | A unique identifier used to authenticate and control access to the API endpoints                 |
+| Flask        | A lightweight Python web framework used to build the application                                 |
+| PostgreSQL   | The SQL database management system used for persistent data storage                              |
+| REST/RESTful | Architectural style for designing networked applications, using HTTP methods for data operations |
+| SQLAlchemy   | An SQL toolkit and Object-Relational Mapping (ORM) library for Python                            |
+| Tenacity     | A Python library implementing retry behavior for unreliable operations                           |
+| Docker       | A platform for developing, shipping, and running applications in containers                      |
+| ACID         | Atomicity, Consistency, Isolation, Durability - properties of database transactions              |
+| ORM          | Object-Relational Mapping - technique for converting data between incompatible type systems      |
+| CI/CD        | Continuous Integration/Continuous Deployment - automated software delivery process               |

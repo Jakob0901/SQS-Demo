@@ -1,0 +1,44 @@
+@startuml architecture-l1
+skinparam componentStyle uml2
+
+title Infrastructure Level 1 View
+
+actor "User" as user
+
+cloud "External Services" {
+    [Quote API] as external_api
+    note right of external_api
+        Third-party service
+        providing quotes
+    end note
+}
+
+node "Docker Environment" {
+    node "API Container" {
+        [Flask Application] as app
+        note right of app
+            Handles HTTP requests
+            and business logic
+        end note
+    }
+
+    node "Database Container" {
+        database "PostgreSQL" as db
+        note right of db
+            Stores quotes and
+            user preferences
+        end note
+    }
+}
+
+user -down-> app : HTTP/HTTPS
+app <--> db : SQL queries
+app <--> external_api : REST API calls
+
+legend
+|= Component |= Description |
+| API Container | Runs Flask application |
+| Database Container | PostgreSQL instance |
+| External API | Third-party quote service |
+endlegend
+@enduml

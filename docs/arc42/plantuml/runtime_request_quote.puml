@@ -1,0 +1,30 @@
+@startuml runtime-request-quote
+participant "Client" as client
+participant "API" as api
+participant "Wrapper" as wrapper
+participant "HTTP Client" as http
+participant "External API" as external
+
+client -> api: Try get_quote()
+activate api
+
+api -> wrapper: Request get_random_quote()
+activate wrapper
+
+wrapper -> http: get_quote_random()
+activate http
+
+http -> external: request.get()
+activate external
+external --> http: response
+deactivate external
+
+http --> wrapper: quote data
+deactivate http
+
+wrapper --> api: quote
+deactivate wrapper
+
+api --> client: quote response
+deactivate api
+@enduml

@@ -1,0 +1,34 @@
+@startuml
+
+' Define the components
+actor "Web UI" as UserComputer
+component "Quote Service" as QuoteService {
+    component "API" as ServiceAPI
+    component "Database" as Database
+}
+component "External API" as ExternalAPI
+
+' Define the interactions
+UserComputer -> ServiceAPI: "User Requests\nHTTP/HTTPS"
+ServiceAPI -> ExternalAPI: "API Requests\nRESTful API"
+ServiceAPI <-> Database: "Data Queries\nSQL"
+
+' Styling
+skinparam component {
+    BackgroundColor #FFFFF0
+    BorderColor #AAAAAA
+    FontSize 13
+    ArrowFontSize 10
+}
+
+skinparam actor {
+    BackgroundColor #FFF0F0
+    BorderColor #AAAAAA
+}
+
+skinparam database {
+    BackgroundColor #F0FFF0
+    BorderColor #AAAAAA
+}
+
+@enduml

@@ -1,0 +1,19 @@
+@startuml architecture-overall-whitebox
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+title Overall System Architecture
+
+Boundary(internal, "Quotes Service") {
+    Container(web, "Web Application", "Flask", "Provides user interface")
+    Container(api, "API Layer", "Python", "Handles API requests and business logic")
+    Container(db, "Database", "PostgreSQL", "Stores quotes and user data")
+}
+
+Container_Ext(external, "External API", "Third-party", "Provides random quotes")
+
+Rel(web, api, "Uses", "HTTP/HTTPS")
+Rel(api, db, "Reads/Writes", "SQL")
+Rel(api, external, "Requests", "REST/HTTP")
+
+LAYOUT_WITH_LEGEND()
+@enduml
