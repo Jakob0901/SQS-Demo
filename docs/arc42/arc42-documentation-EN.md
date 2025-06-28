@@ -132,47 +132,60 @@ Rational:
 
 ## Level 2 
 
-![Overall System Architecture](images/architecture-l2.png)
+![Overall System Architecture](images/architecture_l2_api-API_Component___Level_2_View.png)
 
-Contained Blackboxes
+Contained Blackboxes:
 
-| Blackbox | Description                                                                                                       |
-|----------|-------------------------------------------------------------------------------------------------------------------|
-| app      | Handles HTTP requests and responses, providing a user-friendly interface for interacting with the API.            |
-| index    | Provides the main page for the Web application, allowing users to view and save quotes.                           |
-| wrapper  | Provides a consistent interface for interacting with external services, such as the third-party API for quotes.   |
-| database | Handles the interaction with the SQL database, including saving and retrieving quotes.                            |
+| Blackbox | Description                                                                                                                                                                                                                         |
+|----------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| app      | Core Flask application component that handles routing, HTTP request/response cycles, error handling, and API key validation. Acts as the main entry point for all incoming requests.                                                |
+| index    | Frontend controller component that manages the web interface rendering, user interactions, and template handling. Responsible for displaying quotes and handling user actions like saving favorites.                                |
+| wrapper  | Service abstraction layer that encapsulates third-party API interactions. Implements retry logic, error handling, and provides a clean interface for quote operations. Contains both internal and external wrapper implementations. |
+| database | Data access layer using SQLAlchemy ORM for PostgreSQL interactions. Handles database connections, query execution, transaction management, and data model mappings.                                                                 |
 
-### Blackbox 
+### Blackbox
 
 #### app
-
-The app is the main entry point for the application, handling HTTP requests and responses.
-It uses Flask to create a web application that provides a user-friendly interface for interacting with the API.
-It includes routes for fetching random quotes, saving quotes, and retrieving stored quotes.
-The functionality of the app is divided into several routes, each responsible for a specific action.
-The app also includes error handling and logging to ensure a smooth user experience.
+Flask-based core application component that:
+- Serves as the main HTTP request/response handler
+- Manages API endpoints and routing logic
+- Implements authentication via API key validation
+- Provides error handling and request logging
+- Handles session management and request lifecycle
+- Contains routes for quote operations (fetch, save, retrieve)
+- Integrates with wrapper and database components
 
 #### index
-
-Contains the main page for the Web application, allowing users to view and save quotes.
-It provides a user-friendly interface for interacting with the API and includes features such as, viewing random quotes, and saving and retrieving favorite quotes.
+Frontend controller component responsible for:
+- Rendering the main web interface using Vue.js
+- Managing user interactions and form submissions
+- Handling quote display and management operations
+- Implementing client-side validations
+- Managing user session state
 
 #### wrapper
-
-The wrapper python package contains all wrapper classes for the application.
-Thereby a wrapper is split into two parts:
-- Internal wrapper: This is the main wrapper class that provides a consistent interface for interacting with external services, such as the third-party API for quotes.
-- External wrapper: This is the wrapper class that provides a consistent interface for interacting with the external API, allowing the application to fetch random quotes and save quotes.
-
-External wrapper are stored in the subpackages.
-Those can contain multiplw wrapper classes implementing different external APIs to solve the same issue.
+Service abstraction layer divided into two main components:
+- Internal wrapper:
+  - Provides unified interface for service interactions
+  - Handles retry logic and error recovery
+  - Implements circuit breaker patterns
+  - Manages service timeouts and fallbacks
+- External wrapper:
+  - Encapsulates third-party API communications
+  - Implements specific API integration logic
+  - Handles rate limiting and quota management
+  - Provides data transformation and validation
 
 #### database
-
-The database python package contains all database-related classes and functions for the application.
-The main class is Storage that contains the implementation of the connection with the postgresql database.
-
+SQLAlchemy-based data access layer that:
+- Manages PostgreSQL database connections
+- Implements ORM models and relationships
+- Handles transaction management
+- Provides CRUD operations for quotes
+- Implements connection pooling
+- Manages database migrations
+- Ensures data integrity and consistency
+- 
 # 6 Runtime View {#section-runtime-view}
 
 ## Request Quote

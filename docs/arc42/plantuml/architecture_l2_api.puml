@@ -1,0 +1,31 @@
+@startuml architecture-l2-api
+skinparam componentStyle uml2
+
+title API Component - Level 2 View
+
+package "API Layer" {
+    [App] <<Flask>> as app
+    [Index] <<Flask Routes>> as index
+    [Wrapper] <<Python>> as wrapper
+    [Database] <<SQLAlchemy>> as database
+}
+
+[External API] <<Third-party>> as external_api #lightgray
+[PostgreSQL] <<Database>> as db_system #lightgray
+[Web UI] <<Frontend>> as web_ui
+
+web_ui --> app : Uses\nHTTP/HTTPS
+app --> index : Routes to\nInternal
+app --> wrapper : Uses\nInternal
+wrapper --> external_api : Requests\nREST/HTTP
+app --> database : Uses\nInternal
+database --> db_system : Queries\nSQL
+
+legend
+|= Component |= Technology |= Description |
+| App | Flask | Handles HTTP requests and responses |
+| Index | Flask Routes | Main web application interface |
+| Wrapper | Python | Interface for external services |
+| Database | SQLAlchemy | Database interaction layer |
+endlegend
+@enduml
