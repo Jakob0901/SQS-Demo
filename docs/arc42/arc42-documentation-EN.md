@@ -300,7 +300,10 @@ This is used for the connection with the the third-party API.
 ```python
 from tenacity import retry
 
-@retry
+@retry(
+    stop=stop_after_attempt(3),
+    retry=retry_if_exception_type(QuoteApiError)
+)
 def get_random_quote(self):
     # do request
     pass
@@ -338,6 +341,35 @@ The implementation of logging in the application is done using the built-in logg
 **Impact**
 
 The implementation of logging in the application ensures that important events and errors are recorded, allowing developers and administrators to monitor the application's behavior and troubleshoot issues effectively.
+
+## Error Handling
+
+**Purpose**
+The purpose of error handling in the application is to gracefully manage unexpected situations and provide meaningful feedback to users and developers.
+It is designed to always return a valid response, even in the event of an error, ensuring that the application remains stable and user-friendly.
+The application returns status codes and error messages in a consistent format, allowing users to understand the nature of the error and take appropriate action.
+
+**Implementation**
+
+```python
+from flask import jsonify
+import logging
+
+logger = logging.getLogger(__name__)
+
+def get_quote(self):
+    logger.debug("Zufälliges Zitat wird angefordert")
+    try:
+            # do sth
+            return jsonify("result": "successful response"), 200
+        except QuoteServiceError as e:
+            logger.error("Fehler", exc_info=True)
+            return jsonify({"error": "Interner Serverfehler"}), 500
+```
+
+***Impact***
+
+The implementation of error handling in the application ensures that unexpected situations are managed gracefully and provides predictable behavior, providing meaningful feedback to users and developers.
 
 # 9 Architecture Decisions {#section-design-decisions}
 
