@@ -372,7 +372,7 @@ The implementation of error handling in the application ensures that unexpected 
 # 9 Architecture Decisions {#section-design-decisions}
 
 Architecture decisions are recorded in the adr folder located at docs/adr.
-A list of all architecture decisions can be found in the [Architecture Decision Records (ADRs)](../adr_list.md) document.
+A list of all architecture decisions can be found in the [Architecture Decision Records (ADRs)](./adr_list.md) document.
 
 # 10 Quality Requirements {#section-quality-scenarios}
 
