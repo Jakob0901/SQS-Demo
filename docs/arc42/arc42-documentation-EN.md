@@ -121,7 +121,7 @@ The following quality goals are prioritized for the architecture, as they are mo
 
 ## Whitebox Overall System 
 
-![Overall System Architecture](images/architecture-overall-whitebox.png)
+![Overall System Architecture](images/architecture_overall_whitebox-Overall_System_Architecture.png)
 
 Rational:
 The overall system architecture is designed to provide a clear separation of concerns, with distinct layers for the Web application, API, and database.
