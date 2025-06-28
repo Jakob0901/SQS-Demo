@@ -13,6 +13,7 @@ nav:
       - ADR Data Storage: adr/adr-data-storage.md
       - ADR Dependency Management: adr/adr-dependency-management.md
       - ADR Testing: adr/adr-testing.md
+  - License: ../LICENSE
 
 markdown_extensions:
   - plantuml_markdown:
