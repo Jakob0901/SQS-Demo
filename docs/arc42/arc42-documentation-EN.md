@@ -177,7 +177,7 @@ The main class is Storage that contains the implementation of the connection wit
 
 ## Request Quote
 
-![Runtime View - Request Quote](images/runtime-request-quote.png)
+![Runtime View - Request Quote](images/runtime_request_quote.png)
 
 1. Try get_quote: access on the api to retrieve a random quote.
 2. Request get_random_quote: Call the wrapper class to get a random quote from the third-party API.
@@ -186,12 +186,13 @@ The main class is Storage that contains the implementation of the connection wit
 
 ## Save Quote
 
-![Runtime View - Save Quote](images/runtime-save-quote.png)
+![Runtime View - Save Quote](images/runtime_save_quote.png)
 
-1. Try save_quote: access on the api to save a quote.
-2. require_api_key: Check if the API key is valid.
-3. store_quote: Call the wrapper class to save the quote in the database.
-4. SQL-Request: Use SQLAlchemy to interact with the database and save the quote.
+1. Try save_quote: Client sends a request to the API to save a quote
+2. require_api_key: API validates the provided API key through Auth service
+3. store_quote: Upon successful authentication, API calls the wrapper class to save the quote
+4. SQL-Request: Wrapper executes database operation through SQLAlchemy
+5. Response flow: Database confirms operation, result passes back through wrapper and API to client
 
 ## Retrieve saved Quotes
 
@@ -407,15 +408,14 @@ A list of all architecture decisions can be found in the [Architecture Decision 
 
 # 11 Risks and Technical Debts 
 
-| Risk                                              | Description                                                                                                                                                                                               |
-|---------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Integration with Third-Party Services             | The application relies on third-party services for social sharing and other functionalities. Any changes or disruptions in these services could impact the application's performance and user experience. |
-| Data Security and Privacy                         | Ensuring the security and privacy of user data is critical. Any breaches or non-compliance with data protection regulations could result in legal issues and loss of user trust.                          |
-| Scalability and Performance                       | As the user base grows, the application must handle increased load without performance degradation. Inadequate scalability measures could lead to slow response times and poor user experience.           |
-| Dependency on External APIs                       | The application depends on external APIs for various functionalities. Any changes or downtime in these APIs could affect the application's performance and reliability.                                   |
-| Compatibility with Multiple Platforms             | Ensuring the application is compatible with multiple platforms and devices is challenging. Inadequate testing and optimization could result in a poor user experience on certain platforms.               |
-| Compliance with Legal and Regulatory Requirements | The application must comply with various legal and regulatory requirements. Non-compliance could result in legal issues, fines, and damage to the application's reputation.                               |
-| Maintenance and Support                           | Providing ongoing maintenance and support is essential for the application's success. Inadequate resources or planning could lead to unresolved issues and reduced user satisfaction.                     |
+| Risk                                              | Description                                                                                                                                                                                     |
+|---------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Data Security and Privacy                         | Ensuring the security and privacy of user data is critical. Any breaches or non-compliance with data protection regulations could result in legal issues and loss of user trust.                |
+| Scalability and Performance                       | As the user base grows, the application must handle increased load without performance degradation. Inadequate scalability measures could lead to slow response times and poor user experience. |
+| Dependency on External APIs                       | The application depends on an external API for various functionalities. Any changes or downtime in these APIs could affect the application's performance and reliability.                       |
+| Compatibility with Multiple Platforms             | Ensuring the application is compatible with multiple platforms and devices is challenging. Inadequate testing and optimization could result in a poor user experience on certain platforms.     |
+| Compliance with Legal and Regulatory Requirements | The application must comply with various legal and regulato ry requirements. Non-compliance could result in legal issues, fines, and damage to the application's reputation.                    |
+| Maintenance and Support                           | Providing ongoing maintenance and support is essential for the application's success. Inadequate resources or planning could lead to unresolved issues and reduced user satisfaction.           |
 
 # 12 Glossary
 
