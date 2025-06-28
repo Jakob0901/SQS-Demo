@@ -255,7 +255,7 @@ The QuotesService consists of two containerized services deployed in a simple, e
 | Database | Docker container running PostgreSQL |
 | Network | Docker internal network |
 
-## Infrastructure Level 2 {#_infrastructure_level_2}
+## Infrastructure Level 2 
 
 ### Application 
 
