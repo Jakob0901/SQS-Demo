@@ -255,21 +255,6 @@ The QuotesService consists of two containerized services deployed in a simple, e
 | Database | Docker container running PostgreSQL |
 | Network | Docker internal network |
 
-## Infrastructure Level 2 
-
-### Application 
-
-**Overview Diagram**
-
-![Level 2 Overview](images/architecture-l2.png)
-
-**Explanation**
-:   **Restful APIs**: The application is designed with RESTful APIs to facilitate seamless integration with other services and applications. 
-It also provides a user-friendly interface for the Web application.<br>
-**Database**: The application uses a SQL database (PostgreSQL) to ensure data integrity and reliability.'
-**API**: The application relies on third-party services for social sharing and other functionalities.
-**Web Application**: The application provides a user-friendly interface for interacting with the API, allowing users to view and save quotes.
-
 # 8 Cross-cutting Concepts {#section-concepts}
 
 ## Authentication
