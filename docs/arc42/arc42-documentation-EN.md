@@ -402,22 +402,27 @@ A list of all architecture decisions can be found in the [Architecture Decision 
 
 # 11 Risks and Technical Debts 
 
-|Risk | Description                                                                                                                                                                                               |
-|-|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|Integration with Third-Party Services| The application relies on third-party services for social sharing and other functionalities. Any changes or disruptions in these services could impact the application's performance and user experience. |
-|Data Security and Privacy| Ensuring the security and privacy of user data is critical. Any breaches or non-compliance with data protection regulations could result in legal issues and loss of user trust.                          |
-|Scalability and Performance| As the user base grows, the application must handle increased load without performance degradation. Inadequate scalability measures could lead to slow response times and poor user experience.           |
-|Dependency on External APIs| The application depends on external APIs for various functionalities. Any changes or downtime in these APIs could affect the application's performance and reliability.                                   |
-|Compatibility with Multiple Platforms| Ensuring the application is compatible with multiple platforms and devices is challenging. Inadequate testing and optimization could result in a poor user experience on certain platforms.               |
-|Compliance with Legal and Regulatory Requirements| The application must comply with various legal and regulatory requirements. Non-compliance could result in legal issues, fines, and damage to the application's reputation.                               |
-|Maintenance and Support| Providing ongoing maintenance and support is essential for the application's success. Inadequate resources or planning could lead to unresolved issues and reduced user satisfaction.                     |
+| Risk                                              | Description                                                                                                                                                                                               |
+|---------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Integration with Third-Party Services             | The application relies on third-party services for social sharing and other functionalities. Any changes or disruptions in these services could impact the application's performance and user experience. |
+| Data Security and Privacy                         | Ensuring the security and privacy of user data is critical. Any breaches or non-compliance with data protection regulations could result in legal issues and loss of user trust.                          |
+| Scalability and Performance                       | As the user base grows, the application must handle increased load without performance degradation. Inadequate scalability measures could lead to slow response times and poor user experience.           |
+| Dependency on External APIs                       | The application depends on external APIs for various functionalities. Any changes or downtime in these APIs could affect the application's performance and reliability.                                   |
+| Compatibility with Multiple Platforms             | Ensuring the application is compatible with multiple platforms and devices is challenging. Inadequate testing and optimization could result in a poor user experience on certain platforms.               |
+| Compliance with Legal and Regulatory Requirements | The application must comply with various legal and regulatory requirements. Non-compliance could result in legal issues, fines, and damage to the application's reputation.                               |
+| Maintenance and Support                           | Providing ongoing maintenance and support is essential for the application's success. Inadequate resources or planning could lead to unresolved issues and reduced user satisfaction.                     |
 
-# 12 Glossary {#section-glossary}
+# 12 Glossary
 
-+-----------------------+-----------------------------------------------+
-| Term                  | Definition                                    |
-+=======================+===============================================+
-| *\<Term-1>*           | *\<definition-1>*                             |
-+-----------------------+-----------------------------------------------+
-| *\<Term-2>*           | *\<definition-2>*                             |
-+-----------------------+-----------------------------------------------+
+| Term         | Definition                                                                                       |
+|--------------|--------------------------------------------------------------------------------------------------|
+| API Key      | A unique identifier used to authenticate and control access to the API endpoints                 |
+| Flask        | A lightweight Python web framework used to build the application                                 |
+| PostgreSQL   | The SQL database management system used for persistent data storage                              |
+| REST/RESTful | Architectural style for designing networked applications, using HTTP methods for data operations |
+| SQLAlchemy   | An SQL toolkit and Object-Relational Mapping (ORM) library for Python                            |
+| Tenacity     | A Python library implementing retry behavior for unreliable operations                           |
+| Docker       | A platform for developing, shipping, and running applications in containers                      |
+| ACID         | Atomicity, Consistency, Isolation, Durability - properties of database transactions              |
+| ORM          | Object-Relational Mapping - technique for converting data between incompatible type systems      |
+| CI/CD        | Continuous Integration/Continuous Deployment - automated software delivery process               |
