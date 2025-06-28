@@ -13,7 +13,7 @@ Ein Service zum Abrufen und Speichern von Zitaten, bestehend aus einer Python/Fl
 
 Die vollständige Dokumentation im arc42-Format ist verfügbar:
 
-- In [`/docs`](/docs/arc42/arc42-documentation-EN.md)
+- In [`/docs`](https://sqs-demo.readthedocs.io/en/latest/arc42/arc42-documentation-EN/#)
 - Auf [Read the Docs](https://sqs-demo.readthedocs.io/)
 
 ## Voraussetzungen

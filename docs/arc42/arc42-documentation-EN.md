@@ -185,7 +185,7 @@ SQLAlchemy-based data access layer that:
 - Implements connection pooling
 - Manages database migrations
 - Ensures data integrity and consistency
-- 
+
 # 6 Runtime View {#section-runtime-view}
 
 ## Request Quote
@@ -207,7 +207,7 @@ SQLAlchemy-based data access layer that:
 4. SQL-Request: Wrapper executes database operation through SQLAlchemy
 5. Response flow: Database confirms operation, result passes back through wrapper and API to client
 
-## Retrieve saved Quotes
+<!-- Retrieve saved Quotes -->
 
 # 7 Deployment View
 
