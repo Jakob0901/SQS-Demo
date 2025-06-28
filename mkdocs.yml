@@ -3,3 +3,13 @@ theme:
   name: readthedocs
 nav:
   - Readme: index.md
+  - Architecture:
+      - ARC 42: arc42/arc42.md
+  - ADRs:
+      - ADR List: adr-list.md
+      - ADR Authentication: adr/adr-authentication.md
+      - ADR Framwork: adr/adr-basic-technology.md
+      - ADR API Data: adr/adr-data-source.md
+      - ADR Data Storage: adr/adr-data-storage.md
+      - ADR Dependency Management: adr/adr-dependency-management.md
+      - ADR Testing: adr/adr-testing.md
