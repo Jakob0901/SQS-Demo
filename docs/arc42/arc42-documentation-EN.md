@@ -209,57 +209,51 @@ SQLAlchemy-based data access layer that:
 
 ## Retrieve saved Quotes
 
-# 7 Deployment View 
-
-![Deployment View Overview](images/deployment-view-overview.png)
-
-1. Try get_stored_quotes: access on the api to retrieve stored quotes.
-2. require_api_key: Check if the API key is valid.
-3. get_stored_quotes: Call the wrapper class to retrieve stored quotes from the database.
-4. SQL-Request: Use SQLAlchemy to interact with the database and retrieve stored quotes.
-
-**Content**
-
-The deployment view describes:
-
-- The technical infrastructure used to execute your system, including environments, servers, processors, channels, network topologies, and other infrastructure elements.
-- The mapping of (software) building blocks to these infrastructure elements.
-
-**Motivation**
-
-Software does not run without hardware. 
-This underlying infrastructure can and will influence your system and/or some cross-cutting concepts. 
-Therefore, you need to know the infrastructure.
+# 7 Deployment View
 
 ## Infrastructure Level 1 
 
-Description
+### Infrastructure Overview
 
-The QuotesService application is deployed across multiple environments to ensure development, testing, and production needs are met. 
-The infrastructure includes:
+The QuotesService consists of two containerized services deployed in a simple, efficient architecture:
 
-**_Overview Diagram_**
+1. API Service (Flask application)
+2. PostgreSQL Database
 
-![Level 1 Overview](images/architecture-l1.png)
+![Level 1 Overview](images/architecture_l1-Infrastructure_Level_1_View.png)
 
-Motivation
+### Key Components
 
-:   The deployment structure is designed to ensure high availability, low latency, and efficient resource utilization. 
-The application is deployed in a cloud environment, ensuring scalability and flexibility.
-The application is containerized using Docker, allowing for easy deployment and management of services.
-By utilizing a microservices architecture, the application can be easily maintained.
+| Component          | Description                                                                  |
+|--------------------|------------------------------------------------------------------------------|
+| API Container      | Runs the Flask application that handles all HTTP requests and business logic |
+| Database Container | PostgreSQL instance that stores quote data and user preferences              |
+| Docker Network     | Connects the two containers, enabling secure communication                   |
 
-Quality and/or Performance Features
+### Quality Characteristics
 
-:   **High Availability**:The application is designed to be highly available by utilizing a microservices architecture, that can be quickly booted, modified and scaled as needed.<br>
-**Scalability**: The cloud-based infrastructure allows for easy scaling of resources to handle increased load and user base.<br>
-**Security**: The application is designed with security in mind, utilizing encryption and secure authentication methods to protect user data and interactions.
+- **Simplicity**
+  - Minimal infrastructure footprint
+  - Easy to deploy and maintain
+  - Clear service boundaries
 
-Mapping of Building Blocks to Infrastructure
+- **Reliability**
+  - Containerized services for consistent environments
+  - Database persistence for data durability
+  - Isolated service components
 
-:  **Production Enviroment:** The production environment is where the application is deployed and accessed by end-users.
-**Cloud VMs**: The application is deployed on cloud-based virtual machines (VMs) to ensure scalability and flexibility.
-**Cloud Infrastructure**: The application is hosted on a cloud infrastructure, allowing for easy scaling and management of resources.
+- **Security**
+  - Contained network communication
+  - API key authentication
+  - Encrypted data transmission
+
+### Infrastructure Mapping
+
+| Building Block | Infrastructure Component |
+|----------------|-------------------------|
+| API Service | Docker container running Flask application |
+| Database | Docker container running PostgreSQL |
+| Network | Docker internal network |
 
 ## Infrastructure Level 2 {#_infrastructure_level_2}
 
