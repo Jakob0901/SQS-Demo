@@ -67,19 +67,24 @@ The following quality goals are prioritized for the architecture, as they are mo
 ![Business Context Diagram](images/buisness_context_diagram.png)
 
 ### Communication Partners
+
 | Communication Partner | Inputs                                          | Outputs                                    |
 |-----------------------|-------------------------------------------------|--------------------------------------------|
-| Users                 | User requests, search queries, user preferences | quotes, search results, user notifications |
+| Users/Web UI          | User requests, search queries, user preferences | quotes, search results, user notifications |
 | External API          | API requests, authentication tokens             | data, API responses                        |
 | Database              | Data queries, data updates                      | Query results, data confirmations          |
+| Quote Service         | Build requests, code changes                    | Build artifacts, deployment notifications  |
 | Build System          | Build requests, code changes                    | Build artifacts, deployment notifications  |
-
 
 ### Description
 
-- **Users**: Interact with the application to search for, discover, and share quotes. Users provide input through the user interface and receive outputs such as search results and notifications.
-- **External API**: Provides additional data and functionalities. The application sends API requests and receives responses containing quotes data.
+### Description
+
+- **Users/Web UI**: Interact with the application to search for, discover, and share quotes. Users provide input through the user interface and receive outputs such as search results and notifications.
+- **External API**: Provides additional data and functionalities. The application sends API requests with authentication tokens and receives responses containing quotes data.
 - **Database**: Stores and retrieves application data. The application sends data queries and updates, receiving query results and confirmations.
+- **Quote Service**: Handles application logic and processing. Receives build requests and code changes, producing build artifacts and deployment notifications.
+- **Build System**: Manages the build and deployment pipeline. Processes build requests and code changes, generating build artifacts and deployment notifications.
 
 ## Technical Context
 
@@ -87,18 +92,18 @@ The following quality goals are prioritized for the architecture, as they are mo
 
 ### Communication Partners
 | Domain-Specific I/O | Channel/Protocol | Transmission Media | Description                                                                |
- |---------------------|------------------|--------------------|----------------------------------------------------------------------------|
- | User Requests       | HTTP/HTTPS       | Web browsers       | Users interact with the application through web browsers using HTTP/HTTPS. |
- | API Requests        | RESTful API      | API servers        | The application sends API requests to external APIs using RESTful API.     |
- | Data Queries        | SQL              | Database servers   | The application sends data queries to the database using SQL.              |
- | Build Requests      | CI/CD Pipeline   | Build servers      | The application sends build requests to the CI/CD pipeline for deployment. |
+|---------------------|------------------|--------------------|----------------------------------------------------------------------------|
+| Web UI              | HTTP/HTTPS       | Web browsers       | Users interact with the application through web browsers using HTTP/HTTPS. |
+| API                 | RESTful API      | API servers        | The application sends API requests to external APIs using RESTful API.     |
+| Database            | SQL              | Database servers   | The application sends data queries to the database using SQL.              |
+| External API        | RESTful API      | Cloud services     | The application communicates with external APIs using RESTful API.         |
 
 ### Description
 
-- **Users**: Interact with the application through web browsers and mobile devices using HTTP/HTTPS and WebSocket protocols.
-- **External API**: Communicates with the application using RESTful API and HTTPS protocols. The API is hosted on API servers and cloud services.
-- **Database**: Stores and retrieves application data using SQL and JDBC protocols. The database is hosted on database servers and cloud databases.
-- **Build System**: The application is built and deployed using a CI/CD pipeline, which communicates with build servers and cloud services using various protocols.
+- **Web UI**: Interact with the application through web browsers using HTTP/HTTPS protocols.
+- **API**: The application sends API requests to external APIs using RESTful API through API servers.
+- **Database**: Sends data queries to the database using SQL through database servers.
+- **External API**: Communicates with external APIs using RESTful API through cloud services.
 
 # 4 Solution Strategy
 
