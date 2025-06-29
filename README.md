@@ -81,6 +81,6 @@ Dieses Projekt steht unter der MIT-Lizenz.
 
 ## Weitere Informationen
 
-Das Projekt wird auf GitHub gehostet: [Jakob0901/SQS-Demo](https://github.com/Jakob0901/SQS-Demo).
-Detaillierte Informationen zur Installation, API-Dokumentation und Architektur finden Sie in der [Dokumentation](https://sqs-demo.readthedocs.io/).
-Das Projekt wird mithilfe von Codacy auf Code-Qualität geprüft und analysiert. Die Ergebnisse sind auf der [Codacy-Seite](https://app.codacy.com/gh/Jakob0901/SQS-Demo/dashboard/) einsehbar.
+- Das Projekt wird auf GitHub gehostet: [Jakob0901/SQS-Demo](https://github.com/Jakob0901/SQS-Demo).
+- Detaillierte Informationen zur Installation, API-Dokumentation und Architektur finden Sie in der [Dokumentation](https://sqs-demo.readthedocs.io/).
+- Das Projekt wird mithilfe von Codacy auf Code-Qualität geprüft und analysiert. Die Ergebnisse sind auf der [Codacy-Seite](https://app.codacy.com/gh/Jakob0901/SQS-Demo/dashboard/) einsehbar.
