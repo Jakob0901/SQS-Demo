@@ -3,3 +3,25 @@ theme:
   name: readthedocs
 nav:
   - Readme: index.md
+  - Architecture:
+      - ARC 42: arc42/arc42-documentation-EN.md
+  - ADRs:
+      - ADR List: arc42/adr_list.md
+      - ADR Authentication: adr/adr-authentication.md
+      - ADR Framwork: adr/adr-basic-technology.md
+      - ADR API Data: adr/adr-data-source.md
+      - ADR Data Storage: adr/adr-data-storage.md
+      - ADR Dependency Management: adr/adr-dependency-management.md
+      - ADR Testing: adr/adr-testing.md
+
+markdown_extensions:
+  - plantuml_markdown:
+      server: http://www.plantuml.com/plantuml  # Public PlantUML server
+      format: png  # Output format (png, svg, etc.)
+  - toc:
+      permalink: true
+  - tables
+  - fenced_code
+
+plugins:
+  - search
