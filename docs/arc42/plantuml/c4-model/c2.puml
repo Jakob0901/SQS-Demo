@@ -1,0 +1,23 @@
+@startuml C2_QuotesService
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+LAYOUT_WITH_LEGEND()
+
+title Container diagram for QuotesService
+
+Person(user, "End User", "A user who wants to view and save quotes")
+
+System_Boundary(c1, "QuotesService") {
+    Container(web_app, "Web Application", "Vue.js", "Provides user interface for interacting with quotes")
+    Container(api, "API Application", "Python, Flask", "Handles quote operations and business logic")
+    ContainerDb(db, "Database", "PostgreSQL", "Stores quotes and user data")
+}
+
+System_Ext(forismaticApi, "Forismatic API", "External service providing random quotes")
+
+Rel(user, web_app, "Uses", "Web Browser")
+Rel(web_app, api, "Makes API calls to", "JSON/HTTPS")
+Rel(api, db, "Reads from and writes to", "SQL")
+Rel(api, forismaticApi, "Fetches quotes from", "JSON/HTTPS")
+
+@enduml

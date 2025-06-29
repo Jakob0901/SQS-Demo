@@ -1,0 +1,17 @@
+@startuml C1_QuotesService
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+LAYOUT_WITH_LEGEND()
+
+title System Context diagram for QuotesService
+
+Person(user, "End User", "A user who wants to view and save quotes")
+
+System(quotesService, "QuotesService", "Allows users to fetch random quotes and save their favorites")
+
+System_Ext(forismaticApi, "Forismatic API", "External service providing random quotes")
+
+Rel(user, quotesService, "Views and saves quotes using", "HTTPS")
+Rel(quotesService, forismaticApi, "Fetches random quotes from", "HTTPS")
+
+@enduml
