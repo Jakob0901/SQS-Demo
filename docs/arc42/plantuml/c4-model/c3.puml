@@ -1,0 +1,28 @@
+@startuml C3_QuotesService_API
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+LAYOUT_WITH_LEGEND()
+
+title Component diagram for QuotesService API
+
+Container_Boundary(api, "API Application") {
+    Component(api_core, "API Core", "Flask", "Handles HTTP requests, routing, and core application logic")
+    Component(auth_service, "Auth Service", "Python", "Manages API key validation and authentication")
+    Component(error_handler, "Error Handler", "Python", "Manages error handling and logging")
+    Component(db_service, "Database Service", "SQLAlchemy", "Manages database operations and ORM")
+    Component(external_wrapper, "External API Wrapper", "Python", "Handles communication with Forismatic API")
+}
+
+Container(web_app, "Web Application", "Vue.js", "Frontend interface")
+ContainerDb(db, "Database", "PostgreSQL", "Stores quotes and user data")
+System_Ext(forismaticApi, "Forismatic API", "External quote service")
+
+Rel(web_app, api_core, "Makes API calls to", "JSON/HTTPS")
+Rel(api_core, auth_service, "Validates requests through")
+Rel(api_core, db_service, "Uses")
+Rel(api_core, external_wrapper, "Uses")
+Rel(db_service, db, "Reads from and writes to", "SQL")
+Rel(external_wrapper, forismaticApi, "Fetches quotes from", "JSON/HTTPS")
+Rel_R(api_core, error_handler, "Uses")
+
+@enduml
