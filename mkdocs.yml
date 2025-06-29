@@ -15,7 +15,7 @@ nav:
       - ADR Testing: adr/adr-testing.md
   - Technical Documentation:
       - Installation: technical/installation.md
-      - Project Structure: technical/project-structure.md
+      - Project Structure: technical/project_structure.md
       - Testing: technical/testing.md
 
 markdown_extensions:
