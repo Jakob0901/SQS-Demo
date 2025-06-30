@@ -110,7 +110,7 @@ class FlaskApp:
             raise ValueError("No API_KEY environment variable set")
         logger.info("Server wird gestartet")
         port = int(os.environ.get('QUOTES_SERVICE_PORT', 80))
-        self.app.run(host='127.0.0.1', port=port)
+        self.app.run(host='0.0.0.0', port=port)
 
 
 if __name__ == '__main__':
